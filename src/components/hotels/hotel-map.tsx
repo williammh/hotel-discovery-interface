@@ -28,6 +28,9 @@ const DRAG_THRESHOLD_PX = 4
 /** Pins this far outside the viewport aren't rendered at all. */
 const PIN_MARGIN_PX = 48
 
+/** Accumulated wheel deltaY needed to spend one zoom level. */
+const WHEEL_ZOOM_STEP_PX = 100
+
 const PIN_COLORS = {
   available: "#f97316",
   fullyBooked: "#64748b",
@@ -131,16 +134,27 @@ export function HotelMap({
     const element = containerRef.current
     if (!element) return
 
+    // Trackpads fire many small wheel events per gesture where a mouse fires
+    // one large one. Stepping zoom on every event would blow through the
+    // whole range on a single trackpad scroll, so deltaY accumulates here and
+    // only spends a zoom level once a gesture has scrolled enough.
+    let accumulated = 0
+
     function handleWheel(event: WheelEvent) {
       if (!element) return
       event.preventDefault()
+
+      accumulated += event.deltaY
+      if (Math.abs(accumulated) < WHEEL_ZOOM_STEP_PX) return
+
+      const delta = accumulated < 0 ? 1 : -1
+      accumulated = 0
 
       const rect = element.getBoundingClientRect()
       const anchor = {
         x: event.clientX - rect.left,
         y: event.clientY - rect.top,
       }
-      const delta = event.deltaY < 0 ? 1 : -1
 
       setView((current) =>
         current
