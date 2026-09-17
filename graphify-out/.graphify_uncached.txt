@@ -1,0 +1,4 @@
+/home/will/hotel-discovery-interface/AGENTS.md
+/home/will/hotel-discovery-interface/ASSUMPTIONS.md
+/home/will/hotel-discovery-interface/CLAUDE.md
+/home/will/hotel-discovery-interface/README.md

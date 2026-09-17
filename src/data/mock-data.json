@@ -1,0 +1,2107 @@
+[
+  {
+    "id": "hotel-01",
+    "name": "The Grand Luminary",
+    "description": "A luxury oasis in the heart of downtown, featuring panoramic city views, world-class dining, and a serene rooftop escape.",
+    "star_rating": 5,
+    "overall_rating": 4.8,
+    "review_count": 1240,
+    "address": {
+      "street": "789 Skyline Blvd",
+      "city": "Chicago",
+      "state": "IL",
+      "zip_code": "60611",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-312-555-0199",
+      "email": "stay@grandluminary.com"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "fitness_center",
+      "spa",
+      "valet_parking",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-01a",
+        "type": "Deluxe King Room",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 450,
+        "price_per_night": 299.00,
+        "room_amenities": [
+          "city_view",
+          "mini_bar"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      },
+      {
+        "room_id": "room-01b",
+        "type": "Standard Queen",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 350,
+        "price_per_night": 199.00,
+        "room_amenities": [
+          "courtyard_view"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-02",
+    "name": "The Chicago Riverfront Inn",
+    "description": "Towering corporate-friendly hotel located in the loop with dynamic architectural views and modern workstations.",
+    "star_rating": 4,
+    "overall_rating": 4.3,
+    "review_count": 1410,
+    "address": {
+      "street": "320 N Dearborn St",
+      "city": "Chicago",
+      "state": "IL",
+      "zip_code": "60654",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-312-555-0145",
+      "email": "reservations@chicagoriverfront.com"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "fitness_center",
+      "restaurant",
+      "valet_parking"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "12:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-02a",
+        "type": "Standard Double Queen",
+        "bed_type": "Queen",
+        "bed_count": 2,
+        "max_occupancy": 4,
+        "square_footage": 380,
+        "price_per_night": 175.00,
+        "room_amenities": [
+          "river_view"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      },
+      {
+        "room_id": "room-02a",
+        "type": "Standard Double Queen",
+        "bed_type": "Queen",
+        "bed_count": 2,
+        "max_occupancy": 4,
+        "square_footage": 380,
+        "price_per_night": 175.00,
+        "room_amenities": [
+          "river_view"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-03",
+    "name": "Windy City Suites",
+    "description": "Modern urban suites designed for extended stays, offering fully equipped kitchenettes and an unbeatable central location.",
+    "star_rating": 3,
+    "overall_rating": 4.1,
+    "review_count": 520,
+    "address": {
+      "street": "55 E Ontario St",
+      "city": "Chicago",
+      "state": "IL",
+      "zip_code": "60611",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-312-555-0188",
+      "email": "info@windycitysuites.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "laundry_service",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "16:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 48 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-03a",
+        "type": "Studio King Suite",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 410,
+        "price_per_night": 135.00,
+        "room_amenities": [
+          "kitchenette",
+          "smart_tv"
+        ],
+        "available_dates": [
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-04",
+    "name": "Magnolia Place Chicago",
+    "description": "A charming, boutique-style historic building reimagined with contemporary comforts and neighborhood vibes.",
+    "star_rating": 3,
+    "overall_rating": 4.5,
+    "review_count": 295,
+    "address": {
+      "street": "1420 N Lincoln Ave",
+      "city": "Chicago",
+      "state": "IL",
+      "zip_code": "60614",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-312-555-0121",
+      "email": "welcome@magnoliaplacechi.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "free_breakfast",
+      "bicycle_rentals"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Non-refundable booking"
+    },
+    "rooms": [
+      {
+        "room_id": "room-04a",
+        "type": "Standard Queen",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 300,
+        "price_per_night": 115.00,
+        "room_amenities": [
+          "garden_view"
+        ],
+        "available_dates": []
+      }
+    ]
+  },
+  {
+    "id": "hotel-05",
+    "name": "Urban Nest Boutique Hotel",
+    "description": "A trendy, eco-friendly boutique hotel nestled in a vibrant arts district. Walking distance to local breweries and cafes.",
+    "star_rating": 4,
+    "overall_rating": 4.5,
+    "review_count": 612,
+    "address": {
+      "street": "412 Canary Way",
+      "city": "Austin",
+      "state": "TX",
+      "zip_code": "78701",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-512-555-0143",
+      "email": "hello@urbannestaustin.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "bicycle_rentals",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "16:00",
+      "check_out_time": "12:00",
+      "cancellation": "Non-refundable booking"
+    },
+    "rooms": [
+      {
+        "room_id": "room-05a",
+        "type": "Standard Queen",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 310,
+        "price_per_night": 145.00,
+        "room_amenities": [
+          "smart_tv"
+        ],
+        "available_dates": [
+          "2026-07-12",
+          "2026-07-13",
+          "2026-07-14"
+        ]
+      },
+      {
+        "room_id": "room-05b",
+        "type": "Double Queen Suite",
+        "bed_type": "Queen",
+        "bed_count": 2,
+        "max_occupancy": 4,
+        "square_footage": 520,
+        "price_per_night": 210.00,
+        "room_amenities": [
+          "kitchenette"
+        ],
+        "available_dates": [
+          "2026-07-13",
+          "2026-07-14"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-06",
+    "name": "Keep Austin Weird Inn",
+    "description": "Embrace the local culture with vibrant murals, vintage decor, and a live acoustic music stage in the lobby.",
+    "star_rating": 2,
+    "overall_rating": 4.2,
+    "review_count": 410,
+    "address": {
+      "street": "1503 S Congress Ave",
+      "city": "Austin",
+      "state": "TX",
+      "zip_code": "78704",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-512-555-0187",
+      "email": "stay@keepaustinweirdinn.com"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "free_parking",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-06a",
+        "type": "Retro Double Bed",
+        "bed_type": "Full",
+        "bed_count": 2,
+        "max_occupancy": 4,
+        "square_footage": 290,
+        "price_per_night": 95.00,
+        "room_amenities": [
+          "mini_fridge"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-07",
+    "name": "Lone Star Luxury Resort",
+    "description": "An expansive premium hill-country estate featuring championship golf courses, cascading pools, and full spa amenities.",
+    "star_rating": 5,
+    "overall_rating": 4.9,
+    "review_count": 890,
+    "address": {
+      "street": "9201 Loop 360 N",
+      "city": "Austin",
+      "state": "TX",
+      "zip_code": "78730",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-512-555-0900",
+      "email": "reservations@lonestarluxury.com"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "spa",
+      "fitness_center",
+      "valet_parking",
+      "restaurant"
+    ],
+    "policies": {
+      "check_in_time": "16:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 7 days before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-07a",
+        "type": "Hill Country King Villa",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 680,
+        "price_per_night": 450.00,
+        "room_amenities": [
+          "balcony",
+          "fireplace",
+          "espresso_machine"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-08",
+    "name": "ATX Urban Stay",
+    "description": "Sleek, minimalist downtown high-rise catering heavily to modern business travelers and digital nomads.",
+    "star_rating": 4,
+    "overall_rating": 4.4,
+    "review_count": 315,
+    "address": {
+      "street": "208 E 7th St",
+      "city": "Austin",
+      "state": "TX",
+      "zip_code": "78701",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-512-555-0112",
+      "email": "desk@atxurbanstay.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "meeting_rooms"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-08a",
+        "type": "Executive King",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 360,
+        "price_per_night": 185.00,
+        "room_amenities": [
+          "work_desk",
+          "smart_tv"
+        ],
+        "available_dates": [
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-09",
+    "name": "Sunset Coastal Inn",
+    "description": "A budget-friendly, relaxed roadside inn located just minutes away from the public beach boardwalk.",
+    "star_rating": 2,
+    "overall_rating": 3.9,
+    "review_count": 185,
+    "address": {
+      "street": "102 Ocean Drive",
+      "city": "Miami",
+      "state": "FL",
+      "zip_code": "33139",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-305-555-0111",
+      "email": "frontdesk@sunsetcoastalinn.com"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "free_parking"
+    ],
+    "policies": {
+      "check_in_time": "14:00",
+      "check_out_time": "10:00",
+      "cancellation": "Free cancellation up to 48 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-09a",
+        "type": "Standard Queen",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 280,
+        "price_per_night": 85.00,
+        "room_amenities": [
+          "mini_fridge",
+          "microwave"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-10",
+    "name": "Neon Palms Motel",
+    "description": "A stylishly retro-renovated 1950s roadside motel providing vibrant pastel colors and a classic pool scene.",
+    "star_rating": 2,
+    "overall_rating": 4.0,
+    "review_count": 145,
+    "address": {
+      "street": "2200 Biscayne Blvd",
+      "city": "Miami",
+      "state": "FL",
+      "zip_code": "33137",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-305-555-0176",
+      "email": "hello@neonpalmsmiami.com"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "free_parking"
+    ],
+    "policies": {
+      "check_in_time": "14:00",
+      "check_out_time": "11:00",
+      "cancellation": "Non-refundable booking"
+    },
+    "rooms": [
+      {
+        "room_id": "room-10a",
+        "type": "Retro Queen",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 260,
+        "price_per_night": 95.00,
+        "room_amenities": [
+          "mini_fridge"
+        ],
+        "available_dates": []
+      }
+    ]
+  },
+  {
+    "id": "hotel-11",
+    "name": "South Beach Sanctum",
+    "description": "Art Deco masterpiece right on the waterfront, prioritizing intimate luxury, curated cocktail lounges, and private beach loungers.",
+    "star_rating": 5,
+    "overall_rating": 4.7,
+    "review_count": 920,
+    "address": {
+      "street": "1301 Ocean Ave",
+      "city": "Miami",
+      "state": "FL",
+      "zip_code": "33139",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-305-555-0999",
+      "email": "concierge@sosanctum.com"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "beach_access",
+      "spa",
+      "valet_parking"
+    ],
+    "policies": {
+      "check_in_time": "16:00",
+      "check_out_time": "12:00",
+      "cancellation": "Free cancellation up to 72 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-11a",
+        "type": "Oceanfront Ocean King",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 510,
+        "price_per_night": 399.00,
+        "room_amenities": [
+          "ocean_view",
+          "balcony"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-12",
+    "name": "Biscayne Bay Resort",
+    "description": "An action-packed family resort boasting an on-site marina, water sports center, and panoramic views of the bay skyline.",
+    "star_rating": 4,
+    "overall_rating": 4.4,
+    "review_count": 1150,
+    "address": {
+      "street": "1601 N Bayshore Dr",
+      "city": "Miami",
+      "state": "FL",
+      "zip_code": "33132",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-305-555-0155",
+      "email": "fun@biscaynebayresort.com"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "fitness_center",
+      "restaurant",
+      "marina_access"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-12a",
+        "type": "Bay View Double Queen",
+        "bed_type": "Queen",
+        "bed_count": 2,
+        "max_occupancy": 4,
+        "square_footage": 420,
+        "price_per_night": 220.00,
+        "room_amenities": [
+          "water_view",
+          "mini_fridge"
+        ],
+        "available_dates": [
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-13",
+    "name": "The Hudson Neo",
+    "description": "Sleek industrial chic in Manhattan. Micro-rooms optimized for urban explorers and business travelers alike.",
+    "star_rating": 4,
+    "overall_rating": 4.2,
+    "review_count": 905,
+    "address": {
+      "street": "550 W 42nd St",
+      "city": "New York",
+      "state": "NY",
+      "zip_code": "10036",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-212-555-0988",
+      "email": "stay@hudsonneo.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "rooftop_bar"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-13a",
+        "type": "Micro King",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 220,
+        "price_per_night": 180.00,
+        "room_amenities": [
+          "city_view"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-14",
+    "name": "Manhattan Heights Hotel",
+    "description": "A historic, soaring architectural landmark offering majestic grandeur and world-class concierges near Midtown.",
+    "star_rating": 5,
+    "overall_rating": 4.6,
+    "review_count": 2100,
+    "address": {
+      "street": "301 Park Ave",
+      "city": "New York",
+      "state": "NY",
+      "zip_code": "10022",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-212-555-0100",
+      "email": "reservations@manhattanheights.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "spa",
+      "valet_parking",
+      "restaurant"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "12:00",
+      "cancellation": "Free cancellation up to 48 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-14a",
+        "type": "Premier King Suite",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 550,
+        "price_per_night": 495.00,
+        "room_amenities": [
+          "soaking_tub",
+          "mini_bar"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-15",
+    "name": "Central Park View Inn",
+    "description": "Cozy, classic boutique establishment proudly situated right along Central Park South with spectacular foliage lookouts.",
+    "star_rating": 3,
+    "overall_rating": 4.3,
+    "review_count": 480,
+    "address": {
+      "street": "120 Central Park S",
+      "city": "New York",
+      "state": "NY",
+      "zip_code": "10019",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-212-555-0156",
+      "email": "info@cpviewinn.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "free_breakfast",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-15a",
+        "type": "Park View Queen",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 290,
+        "price_per_night": 210.00,
+        "room_amenities": [
+          "park_view"
+        ],
+        "available_dates": [
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-16",
+    "name": "Brooklyn Brick Hotel",
+    "description": "Converted historic warehouse in Williamsburg exposing beautiful industrial brick, timber beams, and creative craft spaces.",
+    "star_rating": 4,
+    "overall_rating": 4.5,
+    "review_count": 680,
+    "address": {
+      "street": "85 Wythe Ave",
+      "city": "New York",
+      "state": "NY",
+      "zip_code": "11249",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-718-555-0144",
+      "email": "stay@brooklynbrick.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "rooftop_bar",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "16:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 48 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-16a",
+        "type": "Loft Double Queen",
+        "bed_type": "Queen",
+        "bed_count": 2,
+        "max_occupancy": 4,
+        "square_footage": 450,
+        "price_per_night": 265.00,
+        "room_amenities": [
+          "skyline_view"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-17",
+    "name": "Pacific Crest Lodge",
+    "description": "A rustic timber lodge featuring cozy fireplaces and direct trail access near the scenic foothills.",
+    "star_rating": 3,
+    "overall_rating": 4.6,
+    "review_count": 340,
+    "address": {
+      "street": "1200 Mountain Highway",
+      "city": "Seattle",
+      "state": "WA",
+      "zip_code": "98101",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-206-555-0122",
+      "email": "info@pacificcrestseattle.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "free_parking",
+      "hot_tub",
+      "pet_friendly"
+    ],
+    "amenities": [
+      "free Wi-Fi",
+      "free_parking",
+      "hot_tub",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "16:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 7 days before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-17a",
+        "type": "Fireplace Suite",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 400,
+        "price_per_night": 165.00,
+        "room_amenities": [
+          "fireplace",
+          "balcony"
+        ],
+        "available_dates": []
+      }
+    ]
+  },
+  {
+    "id": "hotel-18",
+    "name": "Emerald City Suites",
+    "description": "Modern downtown high-rise accommodations utilizing tech-integrated rooms, voice controls, and automated concierges.",
+    "star_rating": 4,
+    "overall_rating": 4.2,
+    "review_count": 510,
+    "address": {
+      "street": "801 Pike St",
+      "city": "Seattle",
+      "state": "WA",
+      "zip_code": "98101",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-206-555-0155",
+      "email": "hello@emeraldcitysuites.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "meeting_rooms"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-18a",
+        "type": "Standard King",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 310,
+        "price_per_night": 140.00,
+        "room_amenities": [
+          "smart_tv"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-19",
+    "name": "Puget Sound Vista",
+    "description": "Stunning luxury spaces overlooking the historical Pike Place Market and the sweeping waters of the sound.",
+    "star_rating": 5,
+    "overall_rating": 4.8,
+    "review_count": 1050,
+    "address": {
+      "street": "1021 1st Ave",
+      "city": "Seattle",
+      "state": "WA",
+      "zip_code": "98104",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-206-555-0199",
+      "email": "stay@pugetsoundvista.com"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "fitness_center",
+      "spa",
+      "valet_parking"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "12:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-19a",
+        "type": "Waterfront Premier King",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 480,
+        "price_per_night": 315.00,
+        "room_amenities": [
+          "water_view",
+          "espresso_machine"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      },
+      {
+        "room_id": "room-19a",
+        "type": "Waterfront Premier King",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 480,
+        "price_per_night": 315.00,
+        "room_amenities": [
+          "water_view",
+          "espresso_machine"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-20",
+    "name": "Rain City Boutique",
+    "description": "An artsy, indie escape in Capitol Hill displaying massive vinyl record collections, library walls, and locally roasted coffee.",
+    "star_rating": 3,
+    "overall_rating": 4.5,
+    "review_count": 275,
+    "address": {
+      "street": "1112 E Pine St",
+      "city": "Seattle",
+      "state": "WA",
+      "zip_code": "98122",
+      "country": "USA"
+    },
+    "contact": {
+      "phone": "+1-206-555-0143",
+      "email": "frontdesk@raincityboutique.com"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "free_breakfast",
+      "bicycle_rentals",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 48 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-20a",
+        "type": "Standard Queen Loft",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 330,
+        "price_per_night": 125.00,
+        "room_amenities": [
+          "record_player"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-21",
+    "name": "The Piccadilly Crown",
+    "description": "A quintessential British luxury hotel combining timeless Edwardian elegance with modern West End sophistication.",
+    "star_rating": 5,
+    "overall_rating": 4.9,
+    "review_count": 1840,
+    "address": {
+      "street": "45 Piccadilly",
+      "city": "London",
+      "state": "Greater London",
+      "zip_code": "W1J 0LP",
+      "country": "United Kingdom"
+    },
+    "contact": {
+      "phone": "+44-20-7555-0143",
+      "email": "concierge@piccadillycrown.co.uk"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "fitness_center",
+      "spa",
+      "valet_parking",
+      "afternoon_tea_lounge"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "12:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-21a",
+        "type": "Royal King Suite",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 520,
+        "price_per_night": 420.00,
+        "room_amenities": [
+          "city_view",
+          "mini_bar",
+          "espresso_machine"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      },
+      {
+        "room_id": "room-21a",
+        "type": "Royal King Suite",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 520,
+        "price_per_night": 420.00,
+        "room_amenities": [
+          "city_view",
+          "mini_bar",
+          "espresso_machine"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-22",
+    "name": "Thames View Apartments",
+    "description": "Sleek, upscale aparthotel right on the South Bank, offering corporate travelers spacious layouts and beautiful river vistas.",
+    "star_rating": 4,
+    "overall_rating": 4.4,
+    "review_count": 620,
+    "address": {
+      "street": "210 Albert Embankment",
+      "city": "London",
+      "state": "Greater London",
+      "zip_code": "SE1 7GR",
+      "country": "United Kingdom"
+    },
+    "contact": {
+      "phone": "+44-20-7555-0199",
+      "email": "stay@thamesviewapts.co.uk"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "laundry_service",
+      "meeting_rooms"
+    ],
+    "policies": {
+      "check_in_time": "16:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 48 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-22a",
+        "type": "Executive Studio",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 410,
+        "price_per_night": 245.00,
+        "room_amenities": [
+          "river_view",
+          "kitchenette",
+          "smart_tv"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-23",
+    "name": "Shoreditch Hip Hotel",
+    "description": "An industrial-chic boutique hotel featuring exposed brick, local artist galleries, and a highly popular rooftop bar.",
+    "star_rating": 3,
+    "overall_rating": 4.6,
+    "review_count": 910,
+    "address": {
+      "street": "96 Great Eastern St",
+      "city": "London",
+      "state": "Greater London",
+      "zip_code": "EC2A 3HX",
+      "country": "United Kingdom"
+    },
+    "contact": {
+      "phone": "+44-20-7555-0112",
+      "email": "hello@shoreditchhip.co.uk"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "rooftop_bar",
+      "bicycle_rentals",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Non-refundable booking"
+    },
+    "rooms": [
+      {
+        "room_id": "room-23a",
+        "type": "Standard Double",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 280,
+        "price_per_night": 160.00,
+        "room_amenities": [
+          "record_player",
+          "smart_tv"
+        ],
+        "available_dates": [
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-24",
+    "name": "The Kensington Tavern Inn",
+    "description": "A charming, budget-friendly traditional inn situated directly above a historic, cozy pub near the museums.",
+    "star_rating": 2,
+    "overall_rating": 4.1,
+    "review_count": 340,
+    "address": {
+      "street": "12 Cromwell Rd",
+      "city": "London",
+      "state": "Greater London",
+      "zip_code": "SW7 2HR",
+      "country": "United Kingdom"
+    },
+    "contact": {
+      "phone": "+44-20-7555-0188",
+      "email": "rooms@kensingtontavern.co.uk"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "free_breakfast",
+      "on_site_pub"
+    ],
+    "policies": {
+      "check_in_time": "14:00",
+      "check_out_time": "10:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-24a",
+        "type": "Standard Twin Room",
+        "bed_type": "Twin",
+        "bed_count": 2,
+        "max_occupancy": 2,
+        "square_footage": 240,
+        "price_per_night": 95.00,
+        "room_amenities": [
+          "coffee_maker"
+        ],
+        "available_dates": []
+      }
+    ]
+  },
+  {
+    "id": "hotel-25",
+    "name": "Le Palace Lumière",
+    "description": "An opulent Parisian landmark offering palatial suites, white-glove service, and direct balconies facing the Eiffel Tower.",
+    "star_rating": 5,
+    "overall_rating": 4.9,
+    "review_count": 1560,
+    "address": {
+      "street": "25 Avenue Montaigne",
+      "city": "Paris",
+      "state": "Île-de-France",
+      "zip_code": "75008",
+      "country": "France"
+    },
+    "contact": {
+      "phone": "+33-1-5555-0182",
+      "email": "lumiere@palaceparis.fr"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "spa",
+      "fitness_center",
+      "valet_parking",
+      "michelin_restaurant"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "12:00",
+      "cancellation": "Free cancellation up to 48 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-25a",
+        "type": "Eiffel View Prestige",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 580,
+        "price_per_night": 590.00,
+        "room_amenities": [
+          "eiffel_tower_view",
+          "balcony",
+          "mini_bar"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      },
+      {
+        "room_id": "room-25a",
+        "type": "Eiffel View Prestige",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 580,
+        "price_per_night": 590.00,
+        "room_amenities": [
+          "eiffel_tower_view",
+          "balcony",
+          "mini_bar"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-26",
+    "name": "Marais Chic Boutique",
+    "description": "Artistic, highly fashionable hotel beautifully hidden away inside a historic 17th-century courtyard in Le Marais.",
+    "star_rating": 4,
+    "overall_rating": 4.7,
+    "review_count": 480,
+    "address": {
+      "street": "14 Rue des Rosiers",
+      "city": "Paris",
+      "state": "Île-de-France",
+      "zip_code": "75004",
+      "country": "France"
+    },
+    "contact": {
+      "phone": "+33-1-5555-0144",
+      "email": "stay@maraischic.fr"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "bicycle_rentals",
+      "courtyard_cafe"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-26a",
+        "type": "Deluxe Double",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 320,
+        "price_per_night": 230.00,
+        "room_amenities": [
+          "courtyard_view",
+          "smart_tv"
+        ],
+        "available_dates": [
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-27",
+    "name": "Seine River Vista",
+    "description": "A highly comfortable midscale hotel situated directly on the Left Bank, within easy walking distance to Notre Dame.",
+    "star_rating": 3,
+    "overall_rating": 4.3,
+    "review_count": 835,
+    "address": {
+      "street": "56 Quai des Grands Augustins",
+      "city": "Paris",
+      "state": "Île-de-France",
+      "zip_code": "75006",
+      "country": "France"
+    },
+    "contact": {
+      "phone": "+33-1-5555-0111",
+      "email": "info@seinerivervista.fr"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "free_breakfast",
+      "bar"
+    ],
+    "policies": {
+      "check_in_time": "14:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-27a",
+        "type": "Standard Queen",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 270,
+        "price_per_night": 155.00,
+        "room_amenities": [
+          "river_view"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      },
+      {
+        "room_id": "room-27a",
+        "type": "Standard Queen",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 270,
+        "price_per_night": 155.00,
+        "room_amenities": [
+          "river_view"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-28",
+    "name": "Montmartre Retro Hostel",
+    "description": "A budget-friendly, high-energy artistic hostel and hotel hybrid situated on the steep, winding hills of Montmartre.",
+    "star_rating": 2,
+    "overall_rating": 4.0,
+    "review_count": 510,
+    "address": {
+      "street": "82 Rue d'Orsel",
+      "city": "Paris",
+      "state": "Île-de-France",
+      "zip_code": "75018",
+      "country": "France"
+    },
+    "contact": {
+      "phone": "+33-1-5555-0155",
+      "email": "frontdesk@montmartreretro.fr"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "laundry_service",
+      "social_lounge"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "10:00",
+      "cancellation": "Non-refundable booking"
+    },
+    "rooms": [
+      {
+        "room_id": "room-28a",
+        "type": "Private Micro Double",
+        "bed_type": "Full",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 190,
+        "price_per_night": 85.00,
+        "room_amenities": [
+          "city_view"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-29",
+    "name": "Shinjuku Sky Tower",
+    "description": "An ultra-modern luxury high-rise towering above Tokyo, featuring an indoor pool on the 45th floor and views of Mount Fuji.",
+    "star_rating": 5,
+    "overall_rating": 4.8,
+    "review_count": 2210,
+    "address": {
+      "street": "3-2-1 Nishi-Shinjuku",
+      "city": "Tokyo",
+      "state": "Tokyo-to",
+      "zip_code": "160-0023",
+      "country": "Japan"
+    },
+    "contact": {
+      "phone": "+81-3-5555-0191",
+      "email": "stay@shinjukuskytower.jp"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "fitness_center",
+      "spa",
+      "valet_parking",
+      "sky_bar"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "12:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-29a",
+        "type": "Skyline Executive King",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 480,
+        "price_per_night": 410.00,
+        "room_amenities": [
+          "fuji_view",
+          "deep_soaking_tub"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-30",
+    "name": "Shibuya Neon Nest",
+    "description": "A tech-forward, high-design boutique hotel catering perfectly to travelers wanting to be steps away from the famous crossing.",
+    "star_rating": 4,
+    "overall_rating": 4.5,
+    "review_count": 1130,
+    "address": {
+      "street": "1-22-10 Jinnan",
+      "city": "Tokyo",
+      "state": "Tokyo-to",
+      "zip_code": "150-0041",
+      "country": "Japan"
+    },
+    "contact": {
+      "phone": "+81-3-5555-0145",
+      "email": "hello@shibuyaneonnest.jp"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "restaurant",
+      "laundry_service"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 48 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-30a",
+        "type": "Superior Double Room",
+        "bed_type": "Double",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 290,
+        "price_per_night": 220.00,
+        "room_amenities": [
+          "city_view",
+          "smart_tv"
+        ],
+        "available_dates": [
+          "2026-07-12",
+          "2026-07-13",
+          "2026-07-14"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-31",
+    "name": "Akihabara Tech Inn",
+    "description": "Sleek capsule and micro-room hybrid concept optimized for gaming and tech enthusiasts browsing the electric town.",
+    "star_rating": 3,
+    "overall_rating": 4.2,
+    "review_count": 780,
+    "address": {
+      "street": "4-4-2 Sotokanda",
+      "city": "Tokyo",
+      "state": "Tokyo-to",
+      "zip_code": "101-0021",
+      "country": "Japan"
+    },
+    "contact": {
+      "phone": "+81-3-5555-0122",
+      "email": "desk@akihabaratechinn.jp"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "gaming_lounge",
+      "vending_galore"
+    ],
+    "policies": {
+      "check_in_time": "16:00",
+      "check_out_time": "10:00",
+      "cancellation": "Non-refundable booking"
+    },
+    "rooms": [
+      {
+        "room_id": "room-31a",
+        "type": "Premium Micro Pod",
+        "bed_type": "Twin",
+        "bed_count": 1,
+        "max_occupancy": 1,
+        "square_footage": 140,
+        "price_per_night": 75.00,
+        "room_amenities": [
+          "smart_tv"
+        ],
+        "available_dates": []
+      }
+    ]
+  },
+  {
+    "id": "hotel-32",
+    "name": "Asakusa Traditional Ryokan",
+    "description": "An authentic, peaceful inn featuring beautiful tatami mats, paper screens, and a soothing public hinoki wood bath.",
+    "star_rating": 3,
+    "overall_rating": 4.7,
+    "review_count": 450,
+    "address": {
+      "street": "2-16-5 Asakusa",
+      "city": "Tokyo",
+      "state": "Tokyo-to",
+      "zip_code": "111-0032",
+      "country": "Japan"
+    },
+    "contact": {
+      "phone": "+81-3-5555-0177",
+      "email": "welcome@asakusaryokan.jp"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "public_hot_spring_bath",
+      "traditional_breakfast"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "10:00",
+      "cancellation": "Free cancellation up to 72 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-32a",
+        "type": "Tatami Futon Room",
+        "bed_type": "Futon",
+        "bed_count": 2,
+        "max_occupancy": 3,
+        "square_footage": 340,
+        "price_per_night": 165.00,
+        "room_amenities": [
+          "garden_view"
+        ],
+        "available_dates": [
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-33",
+    "name": "The Harbour Horizon",
+    "description": "World-class coastal luxury located directly in Circular Quay, showcasing unobstructed glass views of the Opera House.",
+    "star_rating": 5,
+    "overall_rating": 4.9,
+    "review_count": 1980,
+    "address": {
+      "street": "77 George St",
+      "city": "Sydney",
+      "state": "NSW",
+      "zip_code": "2000",
+      "country": "Australia"
+    },
+    "contact": {
+      "phone": "+61-2-5555-0131",
+      "email": "res@harbourhorizon.com.au"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "fitness_center",
+      "spa",
+      "valet_parking",
+      "harbour_restaurant"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-33a",
+        "type": "Opera Opera King",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 500,
+        "price_per_night": 440.00,
+        "room_amenities": [
+          "opera_house_view",
+          "balcony"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-34",
+    "name": "Bondi Beach Pad",
+    "description": "A highly relaxed surf-chic boutique hotel situated just steps away from the golden sands and rolling waves of Bondi.",
+    "star_rating": 4,
+    "overall_rating": 4.6,
+    "review_count": 590,
+    "address": {
+      "street": "120 Campbell Parade",
+      "city": "Sydney",
+      "state": "NSW",
+      "zip_code": "2026",
+      "country": "Australia"
+    },
+    "contact": {
+      "phone": "+61-2-5555-0198",
+      "email": "surf@bondibeachpad.com.au"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "beach_access",
+      "bicycle_rentals",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "14:00",
+      "check_out_time": "10:00",
+      "cancellation": "Free cancellation up to 48 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-34a",
+        "type": "Oceanfront Balcony Double",
+        "bed_type": "Queen",
+        "bed_count": 2,
+        "max_occupancy": 4,
+        "square_footage": 430,
+        "price_per_night": 275.00,
+        "room_amenities": [
+          "ocean_view",
+          "balcony"
+        ],
+        "available_dates": [
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-35",
+    "name": "Newtown Urban Stay",
+    "description": "An artistic bohemian hotel celebrating local coffee roasters, vinyl collections, and the bustling inner-west restaurant scene.",
+    "star_rating": 3,
+    "overall_rating": 4.4,
+    "review_count": 310,
+    "address": {
+      "street": "294 King St",
+      "city": "Sydney",
+      "state": "NSW",
+      "zip_code": "2042",
+      "country": "Australia"
+    },
+    "contact": {
+      "phone": "+61-2-5555-0156",
+      "email": "frontdesk@newtownurban.com.au"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "courtyard_lounge",
+      "pet_friendly"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-35a",
+        "type": "Standard Queen",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 310,
+        "price_per_night": 145.00,
+        "room_amenities": [
+          "smart_tv"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-36",
+    "name": "Circular Quay Express",
+    "description": "A functional, no-frills, highly localized business-focused hotel optimized for transit and exploring the harbor hubs.",
+    "description": "A functional, no-frills, highly localized business-focused hotel optimized for transit and exploring the harbor hubs.",
+    "star_rating": 3,
+    "overall_rating": 4.1,
+    "review_count": 740,
+    "address": {
+      "street": "15 Pitt St",
+      "city": "Sydney",
+      "state": "NSW",
+      "zip_code": "2000",
+      "country": "Australia"
+    },
+    "contact": {
+      "phone": "+61-2-5555-0104",
+      "email": "info@cqexpress.com.au"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "fitness_center",
+      "meeting_rooms"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "11:00",
+      "cancellation": "Non-refundable booking"
+    },
+    "rooms": [
+      {
+        "room_id": "room-36a",
+        "type": "Standard King",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 280,
+        "price_per_night": 130.00,
+        "room_amenities": [
+          "work_desk"
+        ],
+        "available_dates": []
+      }
+    ]
+  },
+  {
+    "id": "hotel-37",
+    "name": "Villa Borghese Imperial",
+    "description": "A breathtaking historic Renaissance palace restored into an elite, world-class resort overlooking lush Italian private gardens.",
+    "star_rating": 5,
+    "overall_rating": 4.9,
+    "review_count": 1105,
+    "address": {
+      "street": "12 Via Veneto",
+      "city": "Rome",
+      "state": "Lazio",
+      "zip_code": "00187",
+      "country": "Italy"
+    },
+    "contact": {
+      "phone": "+39-06-5555-0176",
+      "email": "imperial@villaborghese.it"
+    },
+    "amenities": [
+      "pool",
+      "free Wi-Fi",
+      "spa",
+      "fitness_center",
+      "valet_parking",
+      "fine_dining_terrace"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "12:00",
+      "cancellation": "Free cancellation up to 48 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-37a",
+        "type": "Grand Heritage Suite",
+        "bed_type": "King",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 610,
+        "price_per_night": 510.00,
+        "room_amenities": [
+          "fresco_ceilings",
+          "garden_view"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-38",
+    "name": "Trastevere Charm Boutique",
+    "description": "An Ivy-draped, romantic boutique escape tucked away safely in the winding, cobblestone alleyways of Trastevere.",
+    "star_rating": 4,
+    "overall_rating": 4.7,
+    "review_count": 650,
+    "address": {
+      "street": "45 Via della Lungaretta",
+      "city": "Rome",
+      "state": "Lazio",
+      "zip_code": "00153",
+      "country": "Italy"
+    },
+    "contact": {
+      "phone": "+39-06-5555-0110",
+      "email": "stay@trasteverecharm.it"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "free_breakfast",
+      "rooftop_wine_bar",
+      "bicycle_rentals"
+    ],
+    "policies": {
+      "check_in_time": "14:00",
+      "check_out_time": "11:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-38a",
+        "type": "Deluxe Double",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 340,
+        "price_per_night": 210.00,
+        "room_amenities": [
+          "terrace_access",
+          "smart_tv"
+        ],
+        "available_dates": [
+          "2026-07-11",
+          "2026-07-12",
+          "2026-07-13"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-39",
+    "name": "Colosseum Heritage Inn",
+    "description": "Comfortable midscale accommodations with a majestic rooftop terrace providing sweeping lookouts directly over the Colosseum arches.",
+    "star_rating": 3,
+    "overall_rating": 4.4,
+    "review_count": 920,
+    "address": {
+      "street": "8 Via dei Fori Imperiali",
+      "city": "Rome",
+      "state": "Lazio",
+      "zip_code": "00184",
+      "country": "Italy"
+    },
+    "contact": {
+      "phone": "+39-06-5555-0166",
+      "email": "info@colosseumheritage.it"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "rooftop_terrace",
+      "bar"
+    ],
+    "policies": {
+      "check_in_time": "15:00",
+      "check_out_time": "10:00",
+      "cancellation": "Free cancellation up to 24 hours before check-in"
+    },
+    "rooms": [
+      {
+        "room_id": "room-39a",
+        "type": "Standard Queen",
+        "bed_type": "Queen",
+        "bed_count": 1,
+        "max_occupancy": 2,
+        "square_footage": 290,
+        "price_per_night": 165.00,
+        "room_amenities": [
+          "ruins_view"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11",
+          "2026-07-12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotel-40",
+    "name": "Roma Termini Rooms",
+    "description": "Clean, hyper-affordable micro-hotel setup located adjacent to the central station, geared directly toward budget rail travelers.",
+    "star_rating": 2,
+    "overall_rating": 3.9,
+    "review_count": 415,
+    "address": {
+      "street": "142 Via Marsala",
+      "city": "Rome",
+      "state": "Lazio",
+      "zip_code": "00185",
+      "country": "Italy"
+    },
+    "address": {
+      "street": "142 Via Marsala",
+      "city": "Rome",
+      "state": "Lazio",
+      "zip_code": "00185",
+      "country": "Italy"
+    },
+    "contact": {
+      "phone": "+39-06-5555-0143",
+      "email": "desk@romaterminirooms.it"
+    },
+    "amenities": [
+      "free Wi-Fi",
+      "luggage_storage"
+    ],
+    "policies": {
+      "check_in_time": "14:00",
+      "check_out_time": "10:00",
+      "cancellation": "Non-refundable booking"
+    },
+    "rooms": [
+      {
+        "room_id": "room-40a",
+        "type": "Basic Twin Room",
+        "bed_type": "Twin",
+        "bed_count": 2,
+        "max_occupancy": 2,
+        "square_footage": 210,
+        "price_per_night": 80.00,
+        "room_amenities": [
+          "mini_fridge"
+        ],
+        "available_dates": [
+          "2026-07-10",
+          "2026-07-11"
+        ]
+      }
+    ]
+  }
+]
