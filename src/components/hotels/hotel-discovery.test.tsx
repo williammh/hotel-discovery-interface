@@ -50,6 +50,7 @@ function renderDashboard(overrides = {}) {
       bounds={bounds}
       cities={cities}
       scopeLabel="all destinations"
+      availabilityWindow={null}
       {...overrides}
     />
   )
@@ -59,6 +60,19 @@ function resultNames(): string[] {
   return within(screen.getByRole("region", { name: "Hotel results" }))
     .getAllByRole("link")
     .map((link) => link.textContent ?? "")
+}
+
+/** City and granular star rating live behind the "All filters" sheet. */
+async function openAllFilters(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(screen.getByRole("button", { name: "All filters" }))
+}
+
+/** The sheet is modal, so the rest of the page is inert until it closes. */
+async function closeAllFilters(user: ReturnType<typeof userEvent.setup>) {
+  await user.keyboard("{Escape}")
+  await waitFor(() =>
+    expect(screen.queryByRole("dialog", { name: "Filters" })).toBeNull()
+  )
 }
 
 describe("HotelDiscovery", () => {
@@ -93,8 +107,10 @@ describe("HotelDiscovery", () => {
   it("filters by star rating", async () => {
     const user = userEvent.setup()
     renderDashboard()
+    await openAllFilters(user)
 
     await user.click(screen.getByRole("button", { name: "5 star" }))
+    await closeAllFilters(user)
 
     expect(resultNames()).toEqual(["The Grand Luminary"])
   })
@@ -102,11 +118,25 @@ describe("HotelDiscovery", () => {
   it("combines star ratings additively", async () => {
     const user = userEvent.setup()
     renderDashboard()
+    await openAllFilters(user)
 
     await user.click(screen.getByRole("button", { name: "5 star" }))
     await user.click(screen.getByRole("button", { name: "3 star" }))
+    await closeAllFilters(user)
 
     expect(resultNames()).toEqual(["The Grand Luminary", "Windy City Suites"])
+  })
+
+  it("filters by the 4- or 5-star quick chip", async () => {
+    const user = userEvent.setup()
+    renderDashboard()
+
+    await user.click(screen.getByRole("button", { name: "4- or 5-star" }))
+
+    expect(resultNames()).toEqual([
+      "The Grand Luminary",
+      "Urban Nest Boutique",
+    ])
   })
 
   it("shows the no-match empty state instead of a bare list", async () => {
@@ -145,7 +175,9 @@ describe("HotelDiscovery", () => {
 
     expect(screen.getByRole("button", { name: /Clear filters/ })).toBeDisabled()
 
+    await openAllFilters(user)
     await user.click(screen.getByRole("button", { name: "4 star" }))
+    await closeAllFilters(user)
     await user.type(screen.getByLabelText("Search"), "nest")
 
     expect(
@@ -153,16 +185,20 @@ describe("HotelDiscovery", () => {
     ).toBeEnabled()
   })
 
-  it("hides the city filter when the route already pins one city", () => {
+  it("hides the city filter when the route already pins one city", async () => {
+    const user = userEvent.setup()
     renderDashboard({
       cities: [{ slug: "chicago", label: "Chicago", hotelCount: 2 }],
     })
+    await openAllFilters(user)
 
     expect(screen.queryByLabelText("City")).toBeNull()
   })
 
-  it("offers the city filter when the scope spans several cities", () => {
+  it("offers the city filter when the scope spans several cities", async () => {
+    const user = userEvent.setup()
     renderDashboard()
+    await openAllFilters(user)
 
     expect(screen.getByLabelText("City")).toBeInTheDocument()
   })
@@ -182,6 +218,7 @@ describe("HotelDiscovery URL sync", () => {
     const user = userEvent.setup()
     pathnameMock.current = "/usa/il"
     renderDashboard()
+    await openAllFilters(user)
 
     await user.click(screen.getByRole("button", { name: "5 star" }))
 
@@ -197,6 +234,7 @@ describe("HotelDiscovery URL sync", () => {
   it("replaces rather than pushes, so filtering doesn't fill the back button", async () => {
     const user = userEvent.setup()
     renderDashboard()
+    await openAllFilters(user)
 
     await user.click(screen.getByRole("button", { name: "4 star" }))
 
@@ -207,6 +245,7 @@ describe("HotelDiscovery URL sync", () => {
   it("never touches the router — filtering is client-only, no RSC round trip", async () => {
     const user = userEvent.setup()
     renderDashboard()
+    await openAllFilters(user)
 
     await user.click(screen.getByRole("button", { name: "4 star" }))
 
@@ -218,9 +257,11 @@ describe("HotelDiscovery URL sync", () => {
   it("strips the query string again when the filters are cleared", async () => {
     const user = userEvent.setup()
     renderDashboard()
+    await openAllFilters(user)
 
     await user.click(screen.getByRole("button", { name: "4 star" }))
     await waitFor(() => expect(historyMock.replaceState).toHaveBeenCalled())
+    await closeAllFilters(user)
 
     await user.click(screen.getByRole("button", { name: /Clear filters/ }))
 
@@ -270,6 +311,7 @@ describe("HotelDiscovery URL sync", () => {
         bounds={bounds}
         cities={cities}
         scopeLabel="all destinations"
+        availabilityWindow={null}
       />
     )
 
@@ -286,6 +328,7 @@ describe("HotelDiscovery URL sync", () => {
         bounds={bounds}
         cities={cities}
         scopeLabel="all destinations"
+        availabilityWindow={null}
       />
     )
 

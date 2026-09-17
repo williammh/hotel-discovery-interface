@@ -3,6 +3,7 @@ import {
   LocationBreadcrumbs,
   scopeCrumbs,
 } from "@/components/hotels/location-breadcrumbs"
+import { getAvailabilityWindow } from "@/domain/availability"
 import {
   getCitiesInScope,
   getHotelsInScope,
@@ -51,6 +52,7 @@ export async function ScopedDiscovery({
   const summaries = toHotelSummaries(hotels)
   const bounds = getPriceBounds(summaries)
   const filters = parseFilters(await searchParams, bounds)
+  const availabilityWindow = getAvailabilityWindow(hotels)
 
   return (
     <div className="flex flex-col gap-6 lg:min-h-0 lg:flex-1">
@@ -82,6 +84,7 @@ export async function ScopedDiscovery({
         bounds={bounds}
         cities={getCitiesInScope(hotels)}
         scopeLabel={scopeLabel(scope)}
+        availabilityWindow={availabilityWindow}
       />
     </div>
   )

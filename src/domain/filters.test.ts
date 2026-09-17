@@ -19,6 +19,9 @@ function hotel(overrides: {
   overall_rating?: number
   review_count?: number
   price?: number
+  amenities?: string[]
+  maxOccupancy?: number
+  availableDates?: string[]
 }): unknown {
   return {
     id: overrides.id,
@@ -35,7 +38,7 @@ function hotel(overrides: {
       country: "USA",
     },
     contact: { phone: "+1", email: "a@b.com" },
-    amenities: [],
+    amenities: overrides.amenities ?? [],
     policies: {
       check_in_time: "15:00",
       check_out_time: "11:00",
@@ -47,11 +50,11 @@ function hotel(overrides: {
         type: "Standard",
         bed_type: "Queen",
         bed_count: 1,
-        max_occupancy: 2,
+        max_occupancy: overrides.maxOccupancy ?? 2,
         square_footage: 300,
         price_per_night: overrides.price ?? 200,
         room_amenities: [],
-        available_dates: [],
+        available_dates: overrides.availableDates ?? [],
       },
     ],
   }
@@ -92,6 +95,11 @@ describe("parseFilters", () => {
         stars: "4,5",
         minPrice: "150",
         maxPrice: "250",
+        amenities: "pool,spa",
+        minRating: "4",
+        checkIn: "2026-07-10",
+        checkOut: "2026-07-12",
+        guests: "3",
         sort: "price-asc",
       },
       bounds
@@ -102,8 +110,25 @@ describe("parseFilters", () => {
       cities: ["chicago", "austin"],
       stars: [5, 4],
       price: { min: 150, max: 250 },
+      amenities: ["pool", "spa"],
+      minRating: 4,
+      stay: { checkIn: "2026-07-10", checkOut: "2026-07-12" },
+      guests: 3,
       sort: "price-asc",
     })
+  })
+
+  it("drops an invalid stay instead of throwing", () => {
+    expect(
+      parseFilters({ checkIn: "2026-07-12", checkOut: "2026-07-10" }, bounds)
+        .stay
+    ).toBeNull()
+    expect(parseFilters({ checkIn: "2026-07-10" }, bounds).stay).toBeNull()
+  })
+
+  it("clamps a junk guest count back to the default", () => {
+    expect(parseFilters({ guests: "0" }, bounds).guests).toBe(1)
+    expect(parseFilters({ guests: "banana" }, bounds).guests).toBe(1)
   })
 
   it("accepts repeated params as well as comma lists", () => {
@@ -143,6 +168,10 @@ describe("serializeFilters", () => {
       cities: ["chicago"],
       stars: [5, 3],
       price: { min: 120, max: 280 },
+      amenities: ["pool", "spa"],
+      minRating: 4,
+      stay: { checkIn: "2026-07-10", checkOut: "2026-07-12" },
+      guests: 3,
       sort: "rating-desc" as const,
     }
 
@@ -169,6 +198,21 @@ describe("countActiveFilters", () => {
         bounds
       )
     ).toBe(3)
+  })
+
+  it("counts amenities, rating, stay, and guests", () => {
+    expect(
+      countActiveFilters(
+        {
+          ...defaultFilters(bounds),
+          amenities: ["pool"],
+          minRating: 4,
+          stay: { checkIn: "2026-07-10", checkOut: "2026-07-12" },
+          guests: 2,
+        },
+        bounds
+      )
+    ).toBe(4)
   })
 })
 
@@ -249,5 +293,66 @@ describe("applyFilters", () => {
     applyFilters(hotels, { ...defaultFilters(bounds), sort: "price-desc" })
 
     expect(hotels).toEqual(original)
+  })
+
+  it("requires every selected amenity to be present", () => {
+    const withAmenities = toHotelSummaries(
+      normalizeHotels([
+        hotel({ id: "p", amenities: ["pool"] }),
+        hotel({ id: "ps", amenities: ["pool", "spa"] }),
+        hotel({ id: "none", amenities: [] }),
+      ]).hotels
+    )
+
+    expect(
+      applyFilters(withAmenities, {
+        ...defaultFilters(bounds),
+        amenities: ["pool", "spa"],
+      }).map((entry) => entry.id)
+    ).toEqual(["ps"])
+  })
+
+  it("filters by minimum guest rating", () => {
+    expect(
+      applyFilters(hotels, {
+        ...defaultFilters(bounds),
+        minRating: 4.8,
+      }).map((entry) => entry.id)
+    ).toEqual(["b"])
+  })
+
+  it("excludes hotels with no room large enough for the party, even with no stay picked", () => {
+    const withOccupancy = toHotelSummaries(
+      normalizeHotels([
+        hotel({ id: "small", maxOccupancy: 2 }),
+        hotel({ id: "big", maxOccupancy: 4 }),
+      ]).hotels
+    )
+
+    expect(
+      applyFilters(withOccupancy, {
+        ...defaultFilters(bounds),
+        guests: 3,
+      }).map((entry) => entry.id)
+    ).toEqual(["big"])
+  })
+
+  it("filters by stay, requiring an open room for every night", () => {
+    const withStay = toHotelSummaries(
+      normalizeHotels([
+        hotel({
+          id: "open",
+          availableDates: ["2026-07-10", "2026-07-11"],
+        }),
+        hotel({ id: "booked", availableDates: ["2026-07-10"] }),
+      ]).hotels
+    )
+
+    expect(
+      applyFilters(withStay, {
+        ...defaultFilters(bounds),
+        stay: { checkIn: "2026-07-10", checkOut: "2026-07-12" },
+      }).map((entry) => entry.id)
+    ).toEqual(["open"])
   })
 })

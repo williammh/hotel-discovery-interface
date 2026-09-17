@@ -1,7 +1,12 @@
 import type { LatLng } from "./coordinates"
-import type { Hotel } from "./normalize"
+import type { Hotel, Room } from "./normalize"
 
-/** What the dashboard sends to the browser: no rooms or nights, and a narrow shape to filter on. */
+/**
+ * What the dashboard sends to the browser. Carries `rooms` (not just
+ * `roomCount`) so the discovery list can match stay dates and guest counts
+ * against `room.available_dates`/`max_occupancy` the same way the single-hotel
+ * detail page already does, via `domain/availability`.
+ */
 export type HotelSummary = {
   id: string
   name: string
@@ -23,6 +28,7 @@ export type HotelSummary = {
   priceFrom: number | null
   hasAnyAvailability: boolean
   roomCount: number
+  rooms: Room[]
   coordinates: LatLng | null
 }
 
@@ -44,6 +50,7 @@ export function toHotelSummary(hotel: Hotel): HotelSummary {
     priceFrom: hotel.priceFrom,
     hasAnyAvailability: hotel.hasAnyAvailability,
     roomCount: hotel.rooms.length,
+    rooms: hotel.rooms,
     coordinates: hotel.coordinates,
   }
 }

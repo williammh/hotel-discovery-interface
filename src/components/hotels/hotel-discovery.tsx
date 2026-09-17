@@ -10,9 +10,13 @@ import * as React from "react"
 import { HotelCard } from "@/components/hotels/hotel-card"
 import { HotelFilterControls } from "@/components/hotels/hotel-filter-controls"
 import { HotelGlobe } from "@/components/hotels/hotel-globe"
+import { HotelQuickFilters } from "@/components/hotels/hotel-quick-filters"
+import {
+  HotelSearchBar,
+  type AvailabilityWindow,
+} from "@/components/hotels/hotel-search-bar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import {
   Empty,
   EmptyContent,
@@ -46,12 +50,17 @@ export type HotelDiscoveryProps = {
   bounds: PriceBounds
   cities: LocationNode[]
   scopeLabel: string
+  availabilityWindow: AvailabilityWindow
 }
 
 /**
  * The server renders the first filtered results; after hydration the same pure
  * filters run in the browser so typing is instant. On `lg` the dashboard fills
  * the viewport (`data-viewport-fill`) and only the results list scrolls.
+ *
+ * The search bar (query/dates/guests) and quick-filter chips sit above the
+ * results, full width — everything else (city, granular star rating, guest
+ * rating, amenities, exact price, sort) lives behind the "All filters" sheet.
  */
 export function HotelDiscovery({
   hotels,
@@ -59,6 +68,7 @@ export function HotelDiscovery({
   bounds,
   cities,
   scopeLabel,
+  availabilityWindow,
 }: HotelDiscoveryProps) {
   const { filters, setFilters, reset } = useHotelFilters(initialFilters, bounds)
 
@@ -73,57 +83,64 @@ export function HotelDiscovery({
   const globeRef = React.useRef<HTMLDivElement>(null)
   useForwardWheelToResults(resultsRef, globeRef)
 
-  const controls = (
-    <HotelFilterControls
-      filters={filters}
-      bounds={bounds}
-      cities={cities}
-      activeFilterCount={activeFilterCount}
-      onChange={setFilters}
-      onReset={reset}
-    />
+  const [isFiltersOpen, setFiltersOpen] = React.useState(false)
+
+  const allFiltersTrigger = (
+    <Sheet open={isFiltersOpen} onOpenChange={setFiltersOpen}>
+      <SheetTrigger
+        render={<Button variant="outline" size="sm" className="shrink-0" />}
+      >
+        <SlidersHorizontalIcon aria-hidden="true" />
+        All filters
+        {activeFilterCount > 0 && (
+          <Badge variant="secondary">{activeFilterCount}</Badge>
+        )}
+      </SheetTrigger>
+      <SheetContent side="right" className="w-full max-w-sm overflow-y-auto">
+        <SheetHeader>
+          <SheetTitle>Filters</SheetTitle>
+          <SheetDescription>
+            Narrow the {hotels.length} properties in {scopeLabel}.
+          </SheetDescription>
+        </SheetHeader>
+        <div className="p-4">
+          <HotelFilterControls
+            filters={filters}
+            bounds={bounds}
+            cities={cities}
+            onChange={setFilters}
+          />
+        </div>
+      </SheetContent>
+    </Sheet>
   )
 
   return (
-    <div
-      data-viewport-fill
-      className="grid gap-6 lg:min-h-0 lg:flex-1 lg:grid-cols-[1fr_2fr] lg:grid-rows-[minmax(0,1fr)] lg:gap-8"
-    >
-      <div className="flex min-w-0 flex-col gap-6 lg:min-h-0">
-        <aside className="hidden shrink-0 lg:block">
-          <Card>
-            <CardContent>{controls}</CardContent>
-          </Card>
-        </aside>
+    <div className="flex flex-col gap-4 lg:min-h-0 lg:flex-1">
+      <div className="flex flex-col gap-3">
+        <HotelSearchBar
+          filters={filters}
+          availabilityWindow={availabilityWindow}
+          onChange={setFilters}
+        />
+        <HotelQuickFilters
+          filters={filters}
+          bounds={bounds}
+          activeFilterCount={activeFilterCount}
+          onChange={setFilters}
+          onReset={reset}
+          allFiltersTrigger={allFiltersTrigger}
+        />
+      </div>
 
+      <div
+        data-viewport-fill
+        className="grid gap-6 lg:min-h-0 lg:flex-1 lg:grid-cols-[1fr_2fr] lg:grid-rows-[minmax(0,1fr)] lg:gap-8"
+      >
         <section
           aria-label="Hotel results"
-          className="flex min-w-0 flex-col gap-5 lg:min-h-0 lg:flex-1"
+          className="flex min-w-0 flex-col gap-5 lg:min-h-0"
         >
-          <div className="flex justify-end lg:hidden">
-            <Sheet>
-              <SheetTrigger render={<Button variant="outline" size="sm" />}>
-                <SlidersHorizontalIcon aria-hidden="true" />
-                Filters
-                {activeFilterCount > 0 && (
-                  <Badge variant="secondary">{activeFilterCount}</Badge>
-                )}
-              </SheetTrigger>
-              <SheetContent
-                side="right"
-                className="w-full max-w-sm overflow-y-auto"
-              >
-                <SheetHeader>
-                  <SheetTitle>Filters</SheetTitle>
-                  <SheetDescription>
-                    Narrow the {hotels.length} properties in {scopeLabel}.
-                  </SheetDescription>
-                </SheetHeader>
-                <div className="p-4">{controls}</div>
-              </SheetContent>
-            </Sheet>
-          </div>
-
           {/*
             Widened by the scrollbar's width and always scrollable, so the
             scrollbar sits in the column gap and cards align with the filters.
@@ -172,11 +189,17 @@ export function HotelDiscovery({
             )}
           </div>
         </section>
-      </div>
 
-      {/* Hidden below `lg`: no room beside the list, and WebGL is the heaviest thing here. */}
-      <div ref={globeRef} className="hidden lg:block lg:min-h-0">
-        <HotelGlobe hotels={results} />
+        {/*
+          Hidden below `lg`: no room beside the list, and WebGL is the
+          heaviest thing here. `isolate` gives the canvas its own stacking
+          context — without it Chromium can composite the WebGL layer above
+          the "All filters" sheet's backdrop-blurred overlay regardless of
+          z-index.
+        */}
+        <div ref={globeRef} className="isolate hidden lg:block lg:min-h-0">
+          <HotelGlobe hotels={results} />
+        </div>
       </div>
     </div>
   )

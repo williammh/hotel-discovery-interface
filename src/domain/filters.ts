@@ -1,5 +1,11 @@
 import { z } from "zod"
 
+import {
+  getHotelAvailability,
+  nightsBetween,
+  validateStay,
+  type StayRange,
+} from "./availability"
 import type { HotelSummary } from "./summary"
 
 export const SORT_OPTIONS = [
@@ -14,7 +20,14 @@ export type SortOption = (typeof SORT_OPTIONS)[number]["value"]
 
 export const STAR_RATINGS = [5, 4, 3, 2, 1] as const
 
+export const MIN_RATING_OPTIONS = [3, 3.5, 4, 4.5] as const
+
+export const MIN_GUESTS = 1
+export const MAX_GUESTS = 16
+
 export type PriceBounds = { min: number; max: number }
+
+export type { StayRange }
 
 export type HotelFilters = {
   query: string
@@ -22,6 +35,12 @@ export type HotelFilters = {
   cities: string[]
   stars: number[]
   price: PriceBounds
+  /** Raw amenity strings, matched against `HotelSummary.amenities`. */
+  amenities: string[]
+  minRating: number | null
+  /** Null means no stay is selected, so availability isn't filtered on. */
+  stay: StayRange | null
+  guests: number
   sort: SortOption
 }
 
@@ -49,6 +68,10 @@ export function defaultFilters(bounds: PriceBounds): HotelFilters {
     cities: [],
     stars: [],
     price: bounds,
+    amenities: [],
+    minRating: null,
+    stay: null,
+    guests: MIN_GUESTS,
     sort: "recommended",
   }
 }
@@ -71,6 +94,11 @@ const searchParamsSchema = z.object({
   stars: listParam.optional(),
   minPrice: singleParam.optional(),
   maxPrice: singleParam.optional(),
+  amenities: listParam.optional(),
+  minRating: singleParam.optional(),
+  checkIn: singleParam.optional(),
+  checkOut: singleParam.optional(),
+  guests: singleParam.optional(),
   sort: singleParam.optional(),
 })
 
@@ -104,7 +132,19 @@ export function parseFilters(
     return defaults
   }
 
-  const { q, city, stars, minPrice, maxPrice, sort } = result.data
+  const {
+    q,
+    city,
+    stars,
+    minPrice,
+    maxPrice,
+    amenities,
+    minRating,
+    checkIn,
+    checkOut,
+    guests,
+    sort,
+  } = result.data
 
   const parsedStars = (stars ?? [])
     .map(Number)
@@ -113,6 +153,30 @@ export function parseFilters(
   const low = toPrice(minPrice, bounds.min, bounds)
   const high = toPrice(maxPrice, bounds.max, bounds)
 
+  const parsedAmenities = [
+    ...new Set((amenities ?? []).map((entry) => entry.trim()).filter(Boolean)),
+  ]
+
+  const parsedRating = Number(minRating)
+  const rating =
+    minRating !== undefined &&
+    Number.isFinite(parsedRating) &&
+    parsedRating >= 0 &&
+    parsedRating <= 5
+      ? parsedRating
+      : null
+
+  const stayValidation = validateStay(checkIn, checkOut)
+  const stay = stayValidation.status === "valid" ? stayValidation.stay : null
+
+  const parsedGuests = Number(guests)
+  const guestCount =
+    Number.isInteger(parsedGuests) &&
+    parsedGuests >= MIN_GUESTS &&
+    parsedGuests <= MAX_GUESTS
+      ? parsedGuests
+      : defaults.guests
+
   const sortOption = SORT_OPTIONS.find((option) => option.value === sort)
 
   return {
@@ -120,6 +184,10 @@ export function parseFilters(
     cities: city ?? [],
     stars: [...new Set(parsedStars)].sort((a, b) => b - a),
     price: { min: Math.min(low, high), max: Math.max(low, high) },
+    amenities: parsedAmenities,
+    minRating: rating,
+    stay,
+    guests: guestCount,
     sort: sortOption?.value ?? defaults.sort,
   }
 }
@@ -146,6 +214,19 @@ export function serializeFilters(
   if (filters.price.max < bounds.max) {
     params.set("maxPrice", String(filters.price.max))
   }
+  if (filters.amenities.length > 0) {
+    params.set("amenities", [...filters.amenities].sort().join(","))
+  }
+  if (filters.minRating !== null) {
+    params.set("minRating", String(filters.minRating))
+  }
+  if (filters.stay) {
+    params.set("checkIn", filters.stay.checkIn)
+    params.set("checkOut", filters.stay.checkOut)
+  }
+  if (filters.guests > MIN_GUESTS) {
+    params.set("guests", String(filters.guests))
+  }
   if (filters.sort !== "recommended") {
     params.set("sort", filters.sort)
   }
@@ -162,6 +243,10 @@ export function countActiveFilters(
     filters.cities.length > 0,
     filters.stars.length > 0,
     filters.price.min > bounds.min || filters.price.max < bounds.max,
+    filters.amenities.length > 0,
+    filters.minRating !== null,
+    filters.stay !== null,
+    filters.guests > MIN_GUESTS,
   ].filter(Boolean).length
 }
 
@@ -186,6 +271,38 @@ function matchesPrice(hotel: HotelSummary, price: PriceBounds): boolean {
     return false
   }
   return hotel.priceFrom >= price.min && hotel.priceFrom <= price.max
+}
+
+function matchesAmenities(hotel: HotelSummary, amenities: string[]): boolean {
+  return amenities.every((amenity) => hotel.amenities.includes(amenity))
+}
+
+function matchesRating(hotel: HotelSummary, minRating: number | null): boolean {
+  return minRating === null || hotel.overall_rating >= minRating
+}
+
+/**
+ * With no stay picked, a guest count only asks "does any room type sleep
+ * this many people at all". Once a stay is picked, it has to be a room
+ * that's actually open for every night of it.
+ */
+function matchesStay(
+  hotel: HotelSummary,
+  stay: StayRange | null,
+  guests: number
+): boolean {
+  if (!stay) {
+    return hotel.rooms.some((room) => room.max_occupancy >= guests)
+  }
+
+  const nights = nightsBetween(stay.checkIn, stay.checkOut)
+  if (nights.length === 0) {
+    return true
+  }
+
+  return getHotelAvailability(hotel.rooms, nights).available.some(
+    (entry) => entry.room.max_occupancy >= guests
+  )
 }
 
 const comparators: Record<
@@ -220,7 +337,10 @@ export function applyFilters(
         filters.cities.includes(hotel.slugs.city)) &&
       (filters.stars.length === 0 ||
         filters.stars.includes(hotel.star_rating)) &&
-      matchesPrice(hotel, filters.price)
+      matchesPrice(hotel, filters.price) &&
+      matchesAmenities(hotel, filters.amenities) &&
+      matchesRating(hotel, filters.minRating) &&
+      matchesStay(hotel, filters.stay, filters.guests)
   )
 
   return sortHotels(matched, filters.sort)

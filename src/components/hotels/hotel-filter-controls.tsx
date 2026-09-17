@@ -1,13 +1,6 @@
 "use client"
 
-import {
-  ArrowCounterClockwiseIcon,
-  MagnifyingGlassIcon,
-} from "@phosphor-icons/react/dist/ssr"
-
-import { Button } from "@/components/ui/button"
 import { Field, FieldLabel } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
@@ -19,31 +12,38 @@ import { Slider } from "@/components/ui/slider"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import type { LocationNode } from "@/domain/catalog"
 import {
+  MIN_RATING_OPTIONS,
   SORT_OPTIONS,
   STAR_RATINGS,
   type HotelFilters,
   type PriceBounds,
   type SortOption,
 } from "@/domain/filters"
-import { formatCurrency } from "@/lib/format"
+import { formatAmenity, formatCurrency } from "@/lib/format"
+
+/** A curated subset of the seed's amenity strings, not every one it contains. */
+const AMENITY_OPTIONS = [
+  "pool",
+  "spa",
+  "free_breakfast",
+  "fitness_center",
+  "free Wi-Fi",
+  "pet_friendly",
+] as const
 
 export type HotelFilterControlsProps = {
   filters: HotelFilters
   bounds: PriceBounds
   cities: readonly LocationNode[]
-  activeFilterCount: number
   onChange: (update: Partial<HotelFilters>) => void
-  onReset: () => void
 }
 
-/** Controlled, so the same form works in the desktop sidebar and the mobile sheet. */
+/** Controlled, so the same form works wherever the "All filters" panel is rendered. */
 export function HotelFilterControls({
   filters,
   bounds,
   cities,
-  activeFilterCount,
   onChange,
-  onReset,
 }: HotelFilterControlsProps) {
   // A single-city scope (e.g. /usa/il/chicago) makes the city filter a no-op.
   const showCityFilter = cities.length > 1
@@ -51,24 +51,6 @@ export function HotelFilterControls({
 
   return (
     <div className="flex flex-col gap-5">
-      <Field>
-        <FieldLabel htmlFor="hotel-search">Search</FieldLabel>
-        <div className="relative">
-          <MagnifyingGlassIcon
-            aria-hidden="true"
-            className="pointer-events-none absolute start-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground"
-          />
-          <Input
-            id="hotel-search"
-            type="search"
-            value={filters.query}
-            placeholder="Hotel name, city, or country"
-            className="ps-8"
-            onChange={(event) => onChange({ query: event.target.value })}
-          />
-        </div>
-      </Field>
-
       {showCityFilter && (
         <Field>
           <FieldLabel htmlFor="hotel-city">City</FieldLabel>
@@ -134,6 +116,53 @@ export function HotelFilterControls({
       </Field>
 
       <Field>
+        <FieldLabel>Guest rating</FieldLabel>
+        <ToggleGroup
+          aria-label="Filter by minimum guest rating"
+          variant="outline"
+          className="w-full"
+          value={filters.minRating !== null ? [String(filters.minRating)] : []}
+          onValueChange={(value: string[]) =>
+            onChange({ minRating: value[0] ? Number(value[0]) : null })
+          }
+        >
+          {MIN_RATING_OPTIONS.map((rating) => (
+            <ToggleGroupItem
+              key={rating}
+              value={String(rating)}
+              aria-label={`${rating}+ guest rating`}
+              className="flex-1"
+            >
+              {rating}+
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+      </Field>
+
+      <Field>
+        <FieldLabel>Amenities</FieldLabel>
+        <ToggleGroup
+          multiple
+          aria-label="Filter by amenities"
+          variant="outline"
+          orientation="vertical"
+          className="w-full"
+          value={filters.amenities}
+          onValueChange={(value: string[]) => onChange({ amenities: value })}
+        >
+          {AMENITY_OPTIONS.map((amenity) => (
+            <ToggleGroupItem
+              key={amenity}
+              value={amenity}
+              className="w-full justify-start"
+            >
+              {formatAmenity(amenity)}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+      </Field>
+
+      <Field>
         <FieldLabel htmlFor="hotel-price">Price per night</FieldLabel>
         {priceIsFixed ? (
           <p className="text-xs text-muted-foreground">
@@ -161,7 +190,8 @@ export function HotelFilterControls({
         )}
       </Field>
 
-      <div className="flex items-center justify-between gap-2">
+      <Field>
+        <FieldLabel htmlFor="hotel-sort">Sort by</FieldLabel>
         <Select
           items={SORT_OPTIONS}
           value={filters.sort}
@@ -169,7 +199,7 @@ export function HotelFilterControls({
             value && onChange({ sort: value })
           }
         >
-          <SelectTrigger size="sm" aria-label="Sort results">
+          <SelectTrigger id="hotel-sort" size="sm" className="w-full">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -180,18 +210,7 @@ export function HotelFilterControls({
             ))}
           </SelectContent>
         </Select>
-
-        <Button
-          variant="ghost"
-          size="sm"
-          disabled={activeFilterCount === 0}
-          onClick={onReset}
-        >
-          <ArrowCounterClockwiseIcon aria-hidden="true" />
-          Clear filters
-          {activeFilterCount > 0 && ` (${activeFilterCount})`}
-        </Button>
-      </div>
+      </Field>
     </div>
   )
 }
