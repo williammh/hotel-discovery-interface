@@ -2,7 +2,6 @@ import Link from "next/link"
 
 import { AmenityBadges } from "@/components/hotels/amenity-badges"
 import { RatingStars } from "@/components/hotels/rating-stars"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import type { HotelSummary } from "@/domain/summary"
 import { formatCount, formatCurrency } from "@/lib/format"
@@ -25,19 +24,11 @@ export function HotelCard({ hotel }: { hotel: HotelSummary }) {
               {hotel.name}
             </Link>
           </h3>
-          <span className="flex shrink-0 items-center gap-1.5">
-            <RatingStars rating={hotel.star_rating} />
-            <span className="rounded-none bg-secondary px-1.5 py-0.5 font-heading text-xs font-medium text-secondary-foreground tabular-nums">
-              {hotel.overall_rating.toFixed(1)}
-            </span>
-          </span>
+          <RatingStars rating={hotel.star_rating} className="shrink-0" />
         </div>
 
-        <p className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
-          <span className="min-w-0 truncate">
-            {city}, {state}, {country}
-          </span>
-          <span className="shrink-0">{formatCount(hotel.review_count)} reviews</span>
+        <p className="truncate text-xs text-muted-foreground">
+          {city}, {state}, {country}
         </p>
       </CardHeader>
 
@@ -65,13 +56,14 @@ export function HotelCard({ hotel }: { hotel: HotelSummary }) {
             )}
           </p>
 
-          {hotel.hasAnyAvailability ? (
-            <Badge variant="outline">
-              {hotel.roomCount} room {hotel.roomCount === 1 ? "type" : "types"}
-            </Badge>
-          ) : (
-            <Badge variant="destructive">Fully booked</Badge>
-          )}
+          <span className="flex shrink-0 items-center gap-1.5">
+            <span className="text-xs text-muted-foreground">
+              {formatCount(hotel.review_count)} reviews
+            </span>
+            <span className="rounded-none bg-secondary px-1.5 py-0.5 font-heading text-xs font-medium text-secondary-foreground tabular-nums">
+              {hotel.overall_rating.toFixed(1)}
+            </span>
+          </span>
         </div>
       </CardContent>
     </Card>

@@ -84,13 +84,7 @@ export default async function HotelDetailPage({
           <h1 className="font-heading text-xl font-medium text-balance sm:text-2xl">
             {hotel.name}
           </h1>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <RatingStars rating={hotel.star_rating} size="md" />
-            <GuestRating
-              rating={hotel.overall_rating}
-              reviewCount={hotel.review_count}
-            />
-          </div>
+          <RatingStars rating={hotel.star_rating} size="md" />
         </div>
 
         <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
@@ -101,6 +95,11 @@ export default async function HotelDetailPage({
         </p>
 
         <p className="max-w-prose text-xs/relaxed">{hotel.description}</p>
+
+        <GuestRating
+          rating={hotel.overall_rating}
+          reviewCount={hotel.review_count}
+        />
       </header>
 
       <Separator />

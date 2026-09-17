@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  ArrowsDownUpIcon,
   CoinsIcon,
   FlowerLotusIcon,
   StarIcon,
@@ -9,8 +10,20 @@ import {
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Toggle } from "@/components/ui/toggle"
-import type { HotelFilters, PriceBounds } from "@/domain/filters"
+import {
+  SORT_OPTIONS,
+  type HotelFilters,
+  type PriceBounds,
+  type SortOption,
+} from "@/domain/filters"
 import { formatCurrency } from "@/lib/format"
 
 const RATING_PRESET = 4
@@ -70,6 +83,26 @@ export function HotelQuickFilters({
 
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-1">
+      <Select
+        items={SORT_OPTIONS}
+        value={filters.sort}
+        onValueChange={(value: SortOption | null) =>
+          value && onChange({ sort: value })
+        }
+      >
+        <SelectTrigger className="shrink-0" aria-label="Sort by">
+          <ArrowsDownUpIcon aria-hidden="true" />
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {SORT_OPTIONS.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
       {allFiltersTrigger}
 
       {!priceIsFixed && (

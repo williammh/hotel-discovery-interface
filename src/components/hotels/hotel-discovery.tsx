@@ -88,7 +88,7 @@ export function HotelDiscovery({
   const allFiltersTrigger = (
     <Sheet open={isFiltersOpen} onOpenChange={setFiltersOpen}>
       <SheetTrigger
-        render={<Button variant="outline" size="sm" className="shrink-0" />}
+        render={<Button variant="outline" className="shrink-0" />}
       >
         <SlidersHorizontalIcon aria-hidden="true" />
         All filters

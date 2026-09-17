@@ -7,9 +7,11 @@ import {
   getPriceBounds,
   parseFilters,
   serializeFilters,
+  sortHotels,
 } from "./filters"
 import { normalizeHotels } from "./normalize"
 import { toHotelSummaries, type HotelSummary } from "./summary"
+import { makeSummaries } from "@/test/fixtures"
 
 function hotel(overrides: {
   id: string
@@ -213,6 +215,47 @@ describe("countActiveFilters", () => {
         bounds
       )
     ).toBe(4)
+  })
+})
+
+describe("sortHotels", () => {
+  it("sorts by price ascending and descending", () => {
+    expect(sortHotels(hotels, "price-asc").map((entry) => entry.id)).toEqual([
+      "a",
+      "c",
+      "b",
+    ])
+
+    expect(
+      sortHotels(hotels, "price-desc").map((entry) => entry.id)
+    ).toEqual(["b", "c", "a"])
+  })
+
+  it("sorts by guest rating, highest first", () => {
+    expect(sortHotels(hotels, "rating-desc").map((entry) => entry.id)[0]).toBe(
+      "b"
+    )
+  })
+
+  it("sorts by star rating, highest first", () => {
+    expect(
+      sortHotels(hotels, "stars-desc").map((entry) => entry.id)
+    ).toEqual(["b", "c", "a"])
+  })
+
+  it("sends hotels with no priced rooms to the bottom either direction", () => {
+    const [unpriced] = makeSummaries({ id: "unpriced", rooms: [] })
+    const withUnpriced = [...hotels, unpriced]
+
+    expect(sortHotels(withUnpriced, "price-asc").at(-1)?.id).toBe("unpriced")
+    expect(sortHotels(withUnpriced, "price-desc").at(-1)?.id).toBe("unpriced")
+  })
+
+  it("does not mutate the input array", () => {
+    const original = [...hotels]
+    sortHotels(hotels, "price-desc")
+
+    expect(hotels).toEqual(original)
   })
 })
 

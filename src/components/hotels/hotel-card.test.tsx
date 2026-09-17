@@ -38,7 +38,7 @@ describe("HotelCard", () => {
     expect(screen.getByLabelText("5-star hotel")).toBeInTheDocument()
   })
 
-  it("shows the guest score and review count", () => {
+  it("shows the guest score and review count once, in the footer", () => {
     render(<HotelCard hotel={hotel} />)
 
     expect(screen.getByText("4.8")).toBeInTheDocument()
@@ -51,16 +51,5 @@ describe("HotelCard", () => {
     expect(screen.getByText("Free Wi-Fi")).toBeInTheDocument()
     expect(screen.getByText("Fitness Center")).toBeInTheDocument()
     expect(screen.getByText("+1 more")).toBeInTheDocument()
-  })
-
-  it("flags a hotel with no bookable nights", () => {
-    const [soldOut] = makeSummaries({
-      id: "hotel-04",
-      rooms: [{ room_id: "a", available_dates: [] }],
-    })
-
-    render(<HotelCard hotel={soldOut} />)
-
-    expect(screen.getByText("Fully booked")).toBeInTheDocument()
   })
 })
