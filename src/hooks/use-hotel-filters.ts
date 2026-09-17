@@ -23,7 +23,13 @@ export type UseHotelFilters = {
  * dragging a slider doesn't fill the back button.
  *
  * Deliberately avoids `useSearchParams`, which would opt the page out of server
- * rendering. External URL changes remount the component (see `ScopedDiscovery`).
+ * rendering. Instead it compares every incoming `initialFilters` (what the
+ * server just parsed from the URL) against the query string this hook last
+ * wrote itself. A mismatch means the URL changed from outside — back/forward,
+ * a filtered link — and is adopted into local state. Its own debounced write
+ * produces the query string it's already expecting, so typing never fights
+ * itself. `ScopedDiscovery` still keys `HotelDiscovery` on the destination, so
+ * navigating to a different scope gets a fresh instance regardless.
  */
 export function useHotelFilters(
   initialFilters: HotelFilters,
@@ -45,6 +51,19 @@ export function useHotelFilters(
   const lastWritten = React.useRef(
     serializeFilters(initialFilters, stableBounds).toString()
   )
+
+  // Adopts a URL this hook didn't write itself. Its own debounced write (below)
+  // echoes back here matching `lastWritten`, so this is a no-op while typing.
+  React.useEffect(() => {
+    const incoming = serializeFilters(initialFilters, stableBounds).toString()
+
+    if (incoming === lastWritten.current) {
+      return
+    }
+
+    lastWritten.current = incoming
+    setFiltersState(initialFilters)
+  }, [initialFilters, stableBounds])
 
   React.useEffect(() => {
     const next = serializeFilters(filters, stableBounds).toString()

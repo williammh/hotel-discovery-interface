@@ -19,6 +19,8 @@ type ThemeProviderState = {
 
 const COLOR_SCHEME_QUERY = "(prefers-color-scheme: dark)"
 const THEME_VALUES: Theme[] = ["dark", "light", "system"]
+/** Fired on same-tab writes; the native `storage` event only reaches other tabs. */
+const THEME_CHANGE_EVENT = "stayfinder:theme-change"
 
 const ThemeProviderContext = React.createContext<
   ThemeProviderState | undefined
@@ -66,24 +68,51 @@ export function ThemeProvider({
   disableTransitionOnChange = true,
   ...props
 }: ThemeProviderProps) {
-  const [theme, setThemeState] = React.useState<Theme>(() => {
-    // No localStorage on the server; `ThemeScript` covers the first paint.
-    if (typeof window === "undefined") {
-      return defaultTheme
-    }
+  // `theme` reads straight from localStorage instead of living in `useState`.
+  // The server has no localStorage, so `getServerSnapshot` returns
+  // `defaultTheme` for the hydration render — matching what `ThemeScript`
+  // already painted onto `<html>` — and React swaps in the real value right
+  // after, with no separate effect needed to bridge the two.
+  const subscribe = React.useCallback(
+    (callback: () => void) => {
+      const handleStorage = (event: StorageEvent) => {
+        if (event.storageArea === localStorage && event.key === storageKey) {
+          callback()
+        }
+      }
 
+      window.addEventListener("storage", handleStorage)
+      window.addEventListener(THEME_CHANGE_EVENT, callback)
+
+      return () => {
+        window.removeEventListener("storage", handleStorage)
+        window.removeEventListener(THEME_CHANGE_EVENT, callback)
+      }
+    },
+    [storageKey]
+  )
+
+  const getSnapshot = React.useCallback(() => {
     const storedTheme = localStorage.getItem(storageKey)
-    if (isTheme(storedTheme)) {
-      return storedTheme
-    }
+    return isTheme(storedTheme) ? storedTheme : defaultTheme
+  }, [storageKey, defaultTheme])
 
-    return defaultTheme
-  })
+  const getServerSnapshot = React.useCallback(
+    () => defaultTheme,
+    [defaultTheme]
+  )
+
+  const theme = React.useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot
+  )
 
   const setTheme = React.useCallback(
     (nextTheme: Theme) => {
       localStorage.setItem(storageKey, nextTheme)
-      setThemeState(nextTheme)
+      // The tab that wrote it doesn't get its own `storage` event.
+      window.dispatchEvent(new Event(THEME_CHANGE_EVENT))
     },
     [storageKey]
   )
@@ -125,31 +154,6 @@ export function ThemeProvider({
       mediaQuery.removeEventListener("change", handleChange)
     }
   }, [theme, applyTheme])
-
-  React.useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.storageArea !== localStorage) {
-        return
-      }
-
-      if (event.key !== storageKey) {
-        return
-      }
-
-      if (isTheme(event.newValue)) {
-        setThemeState(event.newValue)
-        return
-      }
-
-      setThemeState(defaultTheme)
-    }
-
-    window.addEventListener("storage", handleStorageChange)
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange)
-    }
-  }, [defaultTheme, storageKey])
 
   const value = React.useMemo(
     () => ({

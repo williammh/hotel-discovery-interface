@@ -77,7 +77,9 @@ Filters (`q`, `city`, `stars`, `minPrice`, `maxPrice`, `sort`) live in the query
 1. The server component reads `searchParams`, parses them with `parseFilters`, and renders filtered results. The first HTML response for a shared link already contains the filtered list (section 8 covers how it streams).
 2. `useHotelFilters` seeds local React state from those parsed filters. Every keystroke or slider drag updates local state and re-runs `applyFilters` in the browser. Nothing goes over the network, so it's instant.
 3. After 250 ms of quiet, the URL is rewritten with `router.replace` inside a transition.
-4. Back/forward and links with filters in them change the query string from outside. `ScopedDiscovery` keys `HotelDiscovery` on the normalised query string, so external navigation remounts the client tree with fresh server state. While the user is filtering, the local state and the URL serialise to the same key, so typing never remounts anything.
+4. Back/forward and links with filters in them change the query string from outside. `useHotelFilters` diffs the server-parsed `initialFilters` against the query string it last wrote itself; a mismatch means the change came from outside and is adopted into local state in place. Its own debounced write produces exactly the query string it's expecting, so typing never fights itself. `ScopedDiscovery` still keys `HotelDiscovery` on the destination (country/state/city), so navigating to a different scope gets a genuinely fresh instance.
+
+   An earlier version keyed `HotelDiscovery` on the full, normalised query string instead of the destination, on the theory that a settled filter change and its own echoed-back URL would always serialise to the same key. They don't: the key is read from the server's re-render, which happens *because* the debounced write landed, so every settled filter change produced a new key and silently remounted the whole subtree — losing search-input focus, resetting the globe's `hasInteracted`/view-choice state, and tearing down and recreating the WebGL context on every filter tweak. The fix moves the "was this us or something external" decision into the hook itself (compared against `lastWritten`), so the key only has to answer one question: did the destination change.
 
 `parseFilters` treats the query string as hostile input. Unknown sort values, `stars=banana`, and inverted price ranges each fall back to that field's default without throwing. `serializeFilters` omits defaults, so a clean view has a clean URL, and the two functions are round-trip tested.
 
@@ -89,7 +91,7 @@ Tradeoffs:
 
 - Filtering executes twice, once on the server and once in the browser. The code isn't duplicated, but it has to stay framework-free for this to work, which is part of why section 2 matters.
 - This only holds while the whole scoped catalogue fits on the client. Past a few hundred hotels the design flips: the server does indexed, paginated filtering, and the client keeps only optimistic UI state. The URL contract would stay the same.
-- The keyed remount throws away transient client state (an open popover, scroll position in the list) on back/forward. That seemed acceptable, since those navigations already change what's shown.
+- Back/forward within one scope now preserves transient client state (an open popover, scroll position, the globe's rotation/view choice) instead of discarding it. Only a genuine destination change resets it, via the scope key — which was always the intent, but the first implementation kept that state alive for less than the length of a keystroke.
 - The 250 ms debounce means a very fast copy-link right after typing could grab the previous URL.
 
 ---
@@ -289,6 +291,7 @@ Tradeoffs:
 - `typedRoutes` is off. Almost every link is a template literal built from data, which typed routes can't narrow without a cast at every call site.
 - ESLint 10 uses `@next/eslint-plugin-next` directly, alongside `typescript-eslint` and `eslint-plugin-react-hooks`. `eslint-config-next` is the default, but it bundles `eslint-plugin-react`, which crashes on ESLint 10 (checked against 16.3.5 and the 16.4 canary). Using the plugin directly is the setup Next documents for this case. The other option was ESLint 9, which is now deprecated.
 - `@react-three/fiber` 9.7 declares React `<19.3` as a peer, and the app runs React 19.3. A scoped `overrides` entry in `package.json` covers that one package. A repo-wide `legacy-peer-deps` would also silence every other peer check, and it did: `@testing-library/dom` was never installed and the whole test suite failed to load.
+- The same fiber/three drift shows up as a harmless console warning: fiber 9.7 still constructs `THREE.Clock`, which three 0.186 has deprecated in favour of `THREE.Timer`. Nothing in the app calls `Clock` directly, so there's nothing to fix here — it resolves whenever fiber updates.
 - Vitest resolves the `@/*` alias from `tsconfig.json` through Vite's built-in `resolve.tsconfigPaths`, so the alias lives in one place.
 - The shadcn `base-lyra` style (Base UI primitives) generates several components that call `useRender` without `"use client"`. That works under Vite and fails in a Server Component, so the directive was added to those files. Phosphor icons come from the `dist/ssr` build, which renders in both environments.
 - `ThemeScript` applies the stored theme before first paint, so dark-mode users don't see a light flash on load.

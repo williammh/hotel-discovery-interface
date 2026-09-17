@@ -186,9 +186,12 @@ The flow is deliberately two-directional:
   re-runs the _same pure functions_ on every keystroke, so interaction is
   instant. The URL is rewritten on a 250 ms debounce with `router.replace`, so
   dragging a slider doesn't fill the back button.
-- **Back/forward:** `ScopedDiscovery` keys the client component on the
-  normalised query string, so external navigation re-seeds client state from the
-  server instead of leaving it stale.
+- **Back/forward:** `useHotelFilters` diffs every incoming `initialFilters`
+  against the query string it last wrote itself; a URL it didn't write (back,
+  forward, a filtered link) is adopted into local state in place, with no
+  remount. `ScopedDiscovery` still keys `HotelDiscovery` on the destination
+  (country/state/city), so navigating to a different scope gets a fresh
+  instance — a fresh globe, fresh scroll position, fresh everything.
 
 `useHotelFilters` deliberately does **not** call `useSearchParams` — doing so
 opts the entire page out of server rendering.

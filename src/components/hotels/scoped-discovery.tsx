@@ -11,7 +11,6 @@ import {
 import {
   getPriceBounds,
   parseFilters,
-  serializeFilters,
   type RawSearchParams,
 } from "@/domain/filters"
 import { toHotelSummaries } from "@/domain/summary"
@@ -21,6 +20,16 @@ export function scopeLabel(scope: LocationScope | null): string {
     return "all destinations"
   }
   return scope.city?.label ?? scope.state?.label ?? scope.country.label
+}
+
+/** Identifies the destination, not the filters, so typing can't change it. */
+function scopeKey(scope: LocationScope | null): string {
+  if (!scope) {
+    return "all"
+  }
+  return [scope.country.slug, scope.state?.slug, scope.city?.slug]
+    .filter(Boolean)
+    .join("/")
 }
 
 /**
@@ -42,7 +51,7 @@ export async function ScopedDiscovery({
   const summaries = toHotelSummaries(hotels)
   const bounds = getPriceBounds(summaries)
   const filters = parseFilters(await searchParams, bounds)
-  console.log("REMOUNT");
+
   return (
     <div className="flex flex-col gap-6 lg:min-h-0 lg:flex-1">
       <LocationBreadcrumbs crumbs={scopeCrumbs(scope)} />
@@ -61,12 +70,13 @@ export async function ScopedDiscovery({
       )}
 
       {/*
-        Keyed on the query string so back/forward re-seeds client state from
-        the server. Typing writes the same key, so it never remounts.
+        Keyed on the destination, not the filters: a different country/state/
+        city gets a fresh instance, but typing and back/forward within one
+        scope are absorbed by `useHotelFilters`'s own sync effect instead of
+        remounting the globe and losing focus, scroll, and WebGL state.
       */}
-      
       <HotelDiscovery
-        key={serializeFilters(filters, bounds).toString()}
+        key={scopeKey(scope)}
         hotels={summaries}
         initialFilters={filters}
         bounds={bounds}

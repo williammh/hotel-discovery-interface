@@ -231,4 +231,50 @@ describe("HotelDiscovery URL sync", () => {
     )
     expect(routerMock.replace).toHaveBeenCalledTimes(1)
   })
+
+  it("does not remount when the server echoes back the filters it just wrote", async () => {
+    const user = userEvent.setup()
+    const { rerender } = renderDashboard()
+
+    const inputBefore = screen.getByLabelText("Search")
+    await user.type(inputBefore, "windy")
+
+    await waitFor(() =>
+      expect(routerMock.replace).toHaveBeenCalledWith("/?q=windy", {
+        scroll: false,
+      })
+    )
+
+    // Simulates the round trip: ScopedDiscovery re-renders with the same
+    // filters this component already wrote to the URL. A remount here would
+    // swap in a brand new input element and drop focus mid-keystroke.
+    rerender(
+      <HotelDiscovery
+        hotels={hotels}
+        initialFilters={{ ...defaultFilters(bounds), query: "windy" }}
+        bounds={bounds}
+        cities={cities}
+        scopeLabel="all destinations"
+      />
+    )
+
+    expect(screen.getByLabelText("Search")).toBe(inputBefore)
+  })
+
+  it("adopts a filter change that came from outside, like back/forward", () => {
+    const { rerender } = renderDashboard()
+
+    rerender(
+      <HotelDiscovery
+        hotels={hotels}
+        initialFilters={{ ...defaultFilters(bounds), query: "austin" }}
+        bounds={bounds}
+        cities={cities}
+        scopeLabel="all destinations"
+      />
+    )
+
+    expect(screen.getByLabelText("Search")).toHaveValue("austin")
+    expect(resultNames()).toEqual(["Urban Nest Boutique"])
+  })
 })
