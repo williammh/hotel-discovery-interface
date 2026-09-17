@@ -1,6 +1,6 @@
 "use client"
 
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import * as React from "react"
 
 import {
@@ -19,23 +19,24 @@ export type UseHotelFilters = {
 }
 
 /**
- * Local filter state, mirrored to the URL on a debounce with `replace` so
- * dragging a slider doesn't fill the back button.
+ * Local filter state, mirrored to the URL on a debounce via the native History
+ * API (`window.history.replaceState`) so dragging a slider doesn't fill the
+ * back button *and* doesn't touch the network — see
+ * DESIGN_DECISIONS.md section 5 for why this replaced `router.replace`.
  *
  * Deliberately avoids `useSearchParams`, which would opt the page out of server
  * rendering. Instead it compares every incoming `initialFilters` (what the
- * server just parsed from the URL) against the query string this hook last
- * wrote itself. A mismatch means the URL changed from outside — back/forward,
- * a filtered link — and is adopted into local state. Its own debounced write
- * produces the query string it's already expecting, so typing never fights
- * itself. `ScopedDiscovery` still keys `HotelDiscovery` on the destination, so
- * navigating to a different scope gets a fresh instance regardless.
+ * server parsed from the URL on the last real navigation to this scope)
+ * against the query string this hook last wrote itself. A mismatch means the
+ * URL changed from outside this hook — a same-scope link with its own filters
+ * in it, most plausibly — and is adopted into local state. `ScopedDiscovery`
+ * still keys `HotelDiscovery` on the destination, so navigating to a different
+ * scope gets a fresh instance regardless.
  */
 export function useHotelFilters(
   initialFilters: HotelFilters,
   bounds: PriceBounds
 ): UseHotelFilters {
-  const router = useRouter()
   const pathname = usePathname()
 
   const [filters, setFiltersState] =
@@ -74,15 +75,15 @@ export function useHotelFilters(
 
     const timer = setTimeout(() => {
       lastWritten.current = next
-      React.startTransition(() => {
-        router.replace(next ? `${pathname}?${next}` : pathname, {
-          scroll: false,
-        })
-      })
+      const url = next ? `${pathname}?${next}` : pathname
+      // Bypasses the Next.js router entirely: no RSC round trip for a value
+      // `applyFilters` already computed locally, no pending-navigation state
+      // to mark with `startTransition`.
+      window.history.replaceState(null, "", url)
     }, URL_SYNC_DELAY_MS)
 
     return () => clearTimeout(timer)
-  }, [filters, stableBounds, pathname, router])
+  }, [filters, stableBounds, pathname])
 
   const setFilters = React.useCallback((update: Partial<HotelFilters>) => {
     setFiltersState((current) => ({ ...current, ...update }))

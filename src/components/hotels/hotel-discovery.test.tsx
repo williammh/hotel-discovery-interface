@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest"
 
 import { defaultFilters, getPriceBounds } from "@/domain/filters"
 import { makeSummaries } from "@/test/fixtures"
-import { pathnameMock, routerMock } from "@/test/setup"
+import { historyMock, pathnameMock, routerMock } from "@/test/setup"
 import { HotelDiscovery } from "./hotel-discovery"
 
 const hotels = makeSummaries(
@@ -186,9 +186,11 @@ describe("HotelDiscovery URL sync", () => {
     await user.click(screen.getByRole("button", { name: "5 star" }))
 
     await waitFor(() =>
-      expect(routerMock.replace).toHaveBeenCalledWith("/usa/il?stars=5", {
-        scroll: false,
-      })
+      expect(historyMock.replaceState).toHaveBeenCalledWith(
+        null,
+        "",
+        "/usa/il?stars=5"
+      )
     )
   })
 
@@ -198,7 +200,18 @@ describe("HotelDiscovery URL sync", () => {
 
     await user.click(screen.getByRole("button", { name: "4 star" }))
 
-    await waitFor(() => expect(routerMock.replace).toHaveBeenCalled())
+    await waitFor(() => expect(historyMock.replaceState).toHaveBeenCalled())
+    expect(historyMock.pushState).not.toHaveBeenCalled()
+  })
+
+  it("never touches the router — filtering is client-only, no RSC round trip", async () => {
+    const user = userEvent.setup()
+    renderDashboard()
+
+    await user.click(screen.getByRole("button", { name: "4 star" }))
+
+    await waitFor(() => expect(historyMock.replaceState).toHaveBeenCalled())
+    expect(routerMock.replace).not.toHaveBeenCalled()
     expect(routerMock.push).not.toHaveBeenCalled()
   })
 
@@ -207,14 +220,12 @@ describe("HotelDiscovery URL sync", () => {
     renderDashboard()
 
     await user.click(screen.getByRole("button", { name: "4 star" }))
-    await waitFor(() => expect(routerMock.replace).toHaveBeenCalled())
+    await waitFor(() => expect(historyMock.replaceState).toHaveBeenCalled())
 
     await user.click(screen.getByRole("button", { name: /Clear filters/ }))
 
     await waitFor(() =>
-      expect(routerMock.replace).toHaveBeenLastCalledWith("/", {
-        scroll: false,
-      })
+      expect(historyMock.replaceState).toHaveBeenLastCalledWith(null, "", "/")
     )
   })
 
@@ -225,14 +236,16 @@ describe("HotelDiscovery URL sync", () => {
     await user.type(screen.getByLabelText("Search"), "luminary")
 
     await waitFor(() =>
-      expect(routerMock.replace).toHaveBeenCalledWith("/?q=luminary", {
-        scroll: false,
-      })
+      expect(historyMock.replaceState).toHaveBeenCalledWith(
+        null,
+        "",
+        "/?q=luminary"
+      )
     )
-    expect(routerMock.replace).toHaveBeenCalledTimes(1)
+    expect(historyMock.replaceState).toHaveBeenCalledTimes(1)
   })
 
-  it("does not remount when the server echoes back the filters it just wrote", async () => {
+  it("does not remount when a later render echoes back the filters it just wrote", async () => {
     const user = userEvent.setup()
     const { rerender } = renderDashboard()
 
@@ -240,14 +253,16 @@ describe("HotelDiscovery URL sync", () => {
     await user.type(inputBefore, "windy")
 
     await waitFor(() =>
-      expect(routerMock.replace).toHaveBeenCalledWith("/?q=windy", {
-        scroll: false,
-      })
+      expect(historyMock.replaceState).toHaveBeenCalledWith(
+        null,
+        "",
+        "/?q=windy"
+      )
     )
 
-    // Simulates the round trip: ScopedDiscovery re-renders with the same
-    // filters this component already wrote to the URL. A remount here would
-    // swap in a brand new input element and drop focus mid-keystroke.
+    // Simulates a parent re-render that hands back the same filters this
+    // hook already wrote. A remount here would swap in a brand new input
+    // element and drop focus mid-keystroke.
     rerender(
       <HotelDiscovery
         hotels={hotels}

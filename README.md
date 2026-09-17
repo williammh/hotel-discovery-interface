@@ -184,14 +184,18 @@ The flow is deliberately two-directional:
   results, so the first HTML response for a shared link already holds the list.
 - **Client:** `useHotelFilters` seeds local state from those same filters and
   re-runs the _same pure functions_ on every keystroke, so interaction is
-  instant. The URL is rewritten on a 250 ms debounce with `router.replace`, so
-  dragging a slider doesn't fill the back button.
+  instant. The URL is rewritten on a 250 ms debounce with
+  `window.history.replaceState`, so dragging a slider doesn't fill the back
+  button — and, since `applyFilters` already ran locally, updating the URL
+  this way never touches the network either (section 5 of
+  [DESIGN_DECISIONS.md](DESIGN_DECISIONS.md#5-filter-state-the-url-is-the-source-of-truth-and-the-same-filter-code-runs-on-server-and-client)
+  covers why this replaced `router.replace`).
 - **Back/forward:** `useHotelFilters` diffs every incoming `initialFilters`
-  against the query string it last wrote itself; a URL it didn't write (back,
-  forward, a filtered link) is adopted into local state in place, with no
-  remount. `ScopedDiscovery` still keys `HotelDiscovery` on the destination
-  (country/state/city), so navigating to a different scope gets a fresh
-  instance — a fresh globe, fresh scroll position, fresh everything.
+  against the query string it last wrote itself; a URL it didn't write is
+  adopted into local state in place, with no remount. `ScopedDiscovery` still
+  keys `HotelDiscovery` on the destination (country/state/city), so navigating
+  to a different scope gets a fresh instance — a fresh globe, fresh scroll
+  position, fresh everything.
 
 `useHotelFilters` deliberately does **not** call `useSearchParams` — doing so
 opts the entire page out of server rendering.

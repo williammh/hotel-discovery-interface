@@ -14,6 +14,16 @@ export const routerMock = {
 
 export const pathnameMock = { current: "/" }
 
+// `useHotelFilters` writes via the native History API, not the router mock
+// above — see DESIGN_DECISIONS.md section 5. Mocked to no-ops so tests can
+// assert on calls without mutating jsdom's real `window.location` between tests.
+export const historyMock = {
+  replaceState: vi
+    .spyOn(window.history, "replaceState")
+    .mockImplementation(() => {}),
+  pushState: vi.spyOn(window.history, "pushState").mockImplementation(() => {}),
+}
+
 vi.mock("next/navigation", () => ({
   useRouter: () => routerMock,
   usePathname: () => pathnameMock.current,
