@@ -18,6 +18,7 @@ import {
   type GlobePin,
 } from "@/domain/globe"
 import type { HotelSummary } from "@/domain/summary"
+import { formatCurrency } from "@/lib/format"
 import { cn } from "@/lib/utils"
 import { isWebGLAvailable } from "@/lib/webgl"
 import { HotelMap } from "./hotel-map"
@@ -71,6 +72,10 @@ function toMarker(pin: GlobePin): GlobeMarker {
     src: pinImage(
       pin.isFullyBooked ? PIN_COLORS.fullyBooked : PIN_COLORS.available
     ),
+    priceLabel:
+      pin.priceFrom !== null
+        ? `From ${formatCurrency(pin.priceFrom)}`
+        : undefined,
   }
 }
 

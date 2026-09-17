@@ -109,6 +109,33 @@ describe("buildGlobePins", () => {
     expect(soldOut[0].isFullyBooked).toBe(true)
   })
 
+  it("prices a pin at the cheapest room across its hotels", () => {
+    const pins = buildGlobePins(
+      makeSummaries(
+        {
+          id: "hotel-01",
+          coordinates: CHICAGO,
+          rooms: [{ room_id: "a", price_per_night: 250 }],
+        },
+        {
+          id: "hotel-02",
+          coordinates: CHICAGO,
+          rooms: [{ room_id: "b", price_per_night: 120 }],
+        }
+      )
+    )
+
+    expect(pins[0].priceFrom).toBe(120)
+  })
+
+  it("prices a pin with no priced rooms as null", () => {
+    const pins = buildGlobePins(
+      makeSummaries({ id: "hotel-01", coordinates: CHICAGO, rooms: [] })
+    )
+
+    expect(pins[0].priceFrom).toBeNull()
+  })
+
   it("treats coordinates within ~11m of each other as the same place", () => {
     const pins = buildGlobePins(
       makeSummaries(

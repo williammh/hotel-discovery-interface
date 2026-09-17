@@ -10,6 +10,8 @@ export interface GlobeMarker {
   lng: number
   src: string
   label?: string
+  /** Pre-formatted price chip shown next to the pin head, e.g. "From $199". */
+  priceLabel?: string
 }
 
 export interface Globe3DConfig {
@@ -167,26 +169,33 @@ function Marker({ marker, radius, onClick, onHover }: MarkerProps) {
             transition: "opacity 0.15s ease-out",
           }}
         >
-          <div
-            className={cn(
-              "cursor-pointer overflow-hidden rounded-full bg-neutral-900 shadow-lg transition-transform duration-200",
-              hovered && "scale-125 shadow-xl ring-1 ring-white/50"
+          <div className="relative" style={{ width: "8px", height: "8px" }}>
+            <div
+              className={cn(
+                "cursor-pointer overflow-hidden rounded-full bg-neutral-900 shadow-lg transition-transform duration-200",
+                hovered && "scale-125 shadow-xl ring-1 ring-white/50"
+              )}
+              style={{
+                width: "8px",
+                height: "8px",
+              }}
+              onMouseEnter={handlePointerEnter}
+              onMouseLeave={handlePointerLeave}
+              onClick={handleClick}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={marker.src}
+                alt={marker.label || "Marker"}
+                className="h-full w-full object-cover"
+                draggable={false}
+              />
+            </div>
+            {marker.priceLabel && (
+              <span className="pointer-events-none absolute top-1/2 left-full ml-1 -translate-y-1/2 rounded-full bg-background/85 px-1.5 py-0.5 font-heading text-xs font-medium whitespace-nowrap text-foreground shadow-sm backdrop-blur-sm">
+                {marker.priceLabel}
+              </span>
             )}
-            style={{
-              width: "8px",
-              height: "8px",
-            }}
-            onMouseEnter={handlePointerEnter}
-            onMouseLeave={handlePointerLeave}
-            onClick={handleClick}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={marker.src}
-              alt={marker.label || "Marker"}
-              className="h-full w-full object-cover"
-              draggable={false}
-            />
           </div>
         </Html>
       </group>

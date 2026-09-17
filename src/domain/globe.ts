@@ -15,6 +15,8 @@ export type GlobePin = {
   label: string
   href: string
   isFullyBooked: boolean
+  /** Cheapest nightly rate across the pin's hotels; null if none have one. */
+  priceFrom: number | null
 }
 
 /** ~11 m: groups identical centroids without merging genuinely distinct hotels. */
@@ -33,6 +35,14 @@ function pinLabel(hotels: readonly HotelSummary[]): string {
   }
 
   return `${city}, ${country} · ${hotels.length} hotels`
+}
+
+function pinPriceFrom(hotels: readonly HotelSummary[]): number | null {
+  const prices = hotels
+    .map((hotel) => hotel.priceFrom)
+    .filter((price) => price !== null)
+
+  return prices.length > 0 ? Math.min(...prices) : null
 }
 
 function pinHref(hotels: readonly HotelSummary[]): string {
@@ -78,6 +88,7 @@ export function buildGlobePins(hotels: readonly HotelSummary[]): GlobePin[] {
       label: pinLabel(grouped),
       href: pinHref(grouped),
       isFullyBooked: grouped.every((hotel) => !hotel.hasAnyAvailability),
+      priceFrom: pinPriceFrom(grouped),
     }
   })
 }

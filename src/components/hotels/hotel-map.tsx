@@ -20,6 +20,7 @@ import {
   type MapView,
 } from "@/domain/mercator"
 import type { LatLng } from "@/domain/coordinates"
+import { formatCurrency } from "@/lib/format"
 import { cn } from "@/lib/utils"
 
 /** Past this many pixels a pointer gesture is a pan, not a click on a pin. */
@@ -298,25 +299,36 @@ export function HotelMap({
           if (offscreen) return null
 
           return (
-            <button
+            <div
               key={pin.id}
-              type="button"
-              className="absolute size-3.5 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full border-2 border-white shadow-md transition-transform hover:scale-125 focus-visible:scale-125 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-              style={{
-                left: `${x}px`,
-                top: `${y}px`,
-                backgroundColor: pin.isFullyBooked
-                  ? PIN_COLORS.fullyBooked
-                  : PIN_COLORS.available,
-              }}
-              onClick={() => selectPin(pin)}
-              onMouseEnter={() => onPinHover?.(pin)}
-              onMouseLeave={() => onPinHover?.(null)}
-              onFocus={() => onPinHover?.(pin)}
-              onBlur={() => onPinHover?.(null)}
+              className="absolute -translate-x-1/2 -translate-y-1/2"
+              style={{ left: `${x}px`, top: `${y}px` }}
             >
-              <span className="sr-only">{pin.label}</span>
-            </button>
+              <button
+                type="button"
+                className="relative block size-3.5 cursor-pointer rounded-full border-2 border-white shadow-md transition-transform hover:scale-125 focus-visible:scale-125 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                style={{
+                  backgroundColor: pin.isFullyBooked
+                    ? PIN_COLORS.fullyBooked
+                    : PIN_COLORS.available,
+                }}
+                onClick={() => selectPin(pin)}
+                onMouseEnter={() => onPinHover?.(pin)}
+                onMouseLeave={() => onPinHover?.(null)}
+                onFocus={() => onPinHover?.(pin)}
+                onBlur={() => onPinHover?.(null)}
+              >
+                <span className="sr-only">{pin.label}</span>
+              </button>
+              {pin.priceFrom !== null && (
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-1/2 left-full ml-1 -translate-y-1/2 rounded-full bg-background/85 px-1.5 py-0.5 font-heading text-xs font-medium whitespace-nowrap text-foreground shadow-sm backdrop-blur-sm"
+                >
+                  From {formatCurrency(pin.priceFrom)}
+                </span>
+              )}
+            </div>
           )
         })}
 
