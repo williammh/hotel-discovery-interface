@@ -249,9 +249,12 @@ Since all four hotels in each city share one centroid, four pins there would sta
 
 Scattering the hotels around each city with random offsets would look better. It would also be false, so the pins stay where the data puts them.
 
-### The vendored Aceternity component carries one patch
+### The vendored Aceternity component carries two patches
 
-`src/components/ui/3d-globe.tsx` is used as installed, apart from one rendering fix. Upstream positions pin heads with drei's `<Html transform sprite>`. That mode goes through a CSS 3D matrix chain whose origin handling depends on canvas size, so on a large canvas the pin head visibly drifts off its pin. Removing `transform` makes drei project the point straight to screen pixels, the same projection the renderer uses for the pin itself, so the head can't drift at any size. The change is a few props with an explanatory comment, which keeps it easy to re-apply or drop on upgrade. Everything app-specific (colours, auto-rotate that stops on first interaction, hover labels, navigation) lives in the `HotelGlobe` wrapper.
+`src/components/ui/3d-globe.tsx` is used as installed, apart from two rendering fixes, each a few props or a changed key with an explanatory comment, which keeps them easy to re-apply or drop on upgrade. Everything app-specific (colours, auto-rotate that stops on first interaction, hover labels, navigation) lives in the `HotelGlobe` wrapper.
+
+1. **Pin-head drift.** Upstream positions pin heads with drei's `<Html transform sprite>`. That mode goes through a CSS 3D matrix chain whose origin handling depends on canvas size, so on a large canvas the pin head visibly drifts off its pin. Removing `transform` makes drei project the point straight to screen pixels, the same projection the renderer uses for the pin itself, so the head can't drift at any size.
+2. **Marker keys were index-based.** `RotatingGlobe` keyed each `Marker` by `marker-${index}-${lat}-${lng}`. `markers` is rebuilt on every filter or sort change and its order tracks the filtered/sorted hotel list, so reordering it — changing the sort dropdown, or a filter that drops a hotel earlier in the list — shifted every later pin to a new index. An index-based key then matched each shifted pin to a *different* hotel's old fiber, so React unmounted and remounted that `Marker` (and its Three.js meshes), resetting its `hovered`/`isVisible` state and flickering the pin, on a plain sort change that hadn't touched that hotel at all. Position is already the caller's dedupe key — `buildGlobePins` groups by lat/lng, and `hotel-globe.tsx`'s `pinsByPosition` map already keys the same way — so the key is now `${lat},${lng}` alone, with no index. Not caught by the test suite, for the same reason as the tradeoff below: nothing here renders the canvas under jsdom.
 
 ### Loading and placement
 
@@ -275,6 +278,7 @@ Tradeoffs:
 - The Earth textures load from unpkg at runtime (the component's defaults). That's a third-party network dependency on a feature that is otherwise self-contained. Production would self-host them.
 - The canvas conveys nothing to assistive technology. A text overlay summarises what's plotted ("12 properties across 3 locations"), and the results list remains the accessible way to reach every hotel.
 - Committed coordinates can drift from the seed. The contract test fails if any hotel is missing a position.
+- `pins` and `markers` rebuild from scratch on every filter-state change, including one that doesn't actually change which hotels match — a keystroke before the query has narrowed anything, a price-slider tick that doesn't cross a hotel's price. `HotelDiscovery` recomputes `results` as a fresh array on every render (`applyFilters` always returns a new array), and `HotelGlobe` treats that new reference as new data regardless of whether the matched set actually changed. At 40 hotels this is inexpensive. Past a size where it mattered, the fix would be at the source — only handing `HotelGlobe` a new `results` reference when the matched id set (not just the array wrapper) actually changes — rather than adding an equality check inside the globe itself.
 
 ---
 
@@ -320,6 +324,16 @@ These aren't architecture, but several decisions above depend on them.
 - `star_rating` is the official 1 to 5 classification and `overall_rating` is the guest score. They're displayed differently (star icons against a numeric badge with review count) so they can't be confused.
 - A hotel's price for filtering and for the "from" price on cards is its cheapest room.
 - There is no booking step. The brief is about discovery, so the app stops once it has shown availability and price.
+
+---
+
+## 17. How AI was used
+
+The brief asks for transparency about AI use rather than a ceiling on it, so here's the actual split.
+
+Done by hand: the initial scaffold (`shadcn init` and the base component set it generated), pulling in and wiring the Aceternity `Globe3D` component and its dependencies (`three`, `@react-three/fiber`, `@react-three/drei`), every architectural decision recorded in this document, and manual testing in the browser — the states in the README's error/empty table, the three responsive breakpoints, and the slider/sort interaction that surfaced the marker-remount bug fixed in section 13.
+
+Everything else — component implementation, the domain layer, the test suite, and both of these documents — was built with Claude, across a mix of Opus and Sonnet, with OpenCode for a handful of smaller edits. The agent worked under this repo's `AGENTS.md`, a trimmed-down version of a standing code-quality prompt used across projects: scope discipline (no refactors or dependencies outside the task), TypeScript rules (no `any` or `@ts-ignore`, schema-validated boundaries), a verify-before-claiming-done protocol (typecheck, lint, tests), and a final-report format that surfaces assumptions and follow-ups rather than burying them. `CLAUDE.md` points at `AGENTS.md` for any agent working in this repo, so those constraints apply going forward, not just to this submission.
 
 ---
 
