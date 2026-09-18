@@ -79,11 +79,21 @@ export function HotelDiscovery({
 
   const activeFilterCount = countActiveFilters(filters, bounds)
 
-  const resultsRef = React.useRef<HTMLDivElement>(null)
-  const globeRef = React.useRef<HTMLDivElement>(null)
-  useForwardWheelToResults(resultsRef, globeRef)
+  const availableAmenities = React.useMemo(() => {
+    const unique = new Set<string>()
+    for (const hotel of hotels) {
+      for (const amenity of hotel.amenities) {
+        unique.add(amenity)
+      }
+    }
+    return [...unique].sort((a, b) => a.localeCompare(b))
+  }, [hotels])
 
   const [isFiltersOpen, setFiltersOpen] = React.useState(false)
+
+  const resultsRef = React.useRef<HTMLDivElement>(null)
+  const globeRef = React.useRef<HTMLDivElement>(null)
+  useForwardWheelToResults(resultsRef, globeRef, isFiltersOpen)
 
   const allFiltersTrigger = (
     <Sheet open={isFiltersOpen} onOpenChange={setFiltersOpen}>
@@ -108,6 +118,7 @@ export function HotelDiscovery({
             filters={filters}
             bounds={bounds}
             cities={cities}
+            amenities={availableAmenities}
             onChange={setFilters}
           />
         </div>
@@ -150,7 +161,7 @@ export function HotelDiscovery({
             className="themed-scrollbar py-0.5 lg:min-h-0 lg:w-[calc(100%+var(--themed-scrollbar-w))] lg:flex-1 lg:overflow-y-scroll lg:overscroll-contain"
           >
             {results.length === 0 ? (
-              <Empty className="border py-16">
+              <Empty className="border py-16 lg:h-full">
                 <EmptyHeader>
                   <EmptyMedia variant="icon">
                     {hotels.length === 0 ? (
@@ -221,13 +232,18 @@ function canScrollInDirection(from: Element | null, deltaY: number): boolean {
   return false
 }
 
-/** On desktop only the results list scrolls, so wheel events elsewhere are routed into it. */
+/**
+ * On desktop only the results list scrolls, so wheel events elsewhere are
+ * routed into it — except while the filters sheet is open, when the results
+ * behind it must stay put.
+ */
 function useForwardWheelToResults(
   resultsRef: React.RefObject<HTMLDivElement | null>,
-  globeRef: React.RefObject<HTMLDivElement | null>
+  globeRef: React.RefObject<HTMLDivElement | null>,
+  disabled: boolean
 ) {
   React.useEffect(() => {
-    if (typeof window.matchMedia !== "function") return
+    if (disabled || typeof window.matchMedia !== "function") return
     const desktop = window.matchMedia(DESKTOP_QUERY)
 
     function onWheel(event: WheelEvent) {
@@ -248,5 +264,5 @@ function useForwardWheelToResults(
 
     window.addEventListener("wheel", onWheel)
     return () => window.removeEventListener("wheel", onWheel)
-  }, [resultsRef, globeRef])
+  }, [resultsRef, globeRef, disabled])
 }

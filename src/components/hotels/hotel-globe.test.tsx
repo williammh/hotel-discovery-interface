@@ -70,13 +70,25 @@ afterEach(() => {
 })
 
 describe("HotelGlobe", () => {
-  it("explains that nothing matches when the filters emptied the list", () => {
+  it("still renders the globe, with no pins, when the filters emptied the list", async () => {
+    resetWebGLProbe(true)
+
     render(<HotelGlobe hotels={[]} />)
 
-    expect(screen.getByText("Nothing to map")).toBeInTheDocument()
+    expect(await screen.findByTestId("globe-canvas")).toBeInTheDocument()
     expect(
-      screen.getByText("No properties match the current filters.")
+      screen.getByRole("region", { name: "Hotel locations" })
     ).toBeInTheDocument()
+    expect(screen.queryByText("Nothing to map")).toBeNull()
+  })
+
+  it("still renders the map, with no pins, when the filters emptied the list", async () => {
+    resetWebGLProbe(false)
+
+    const { container } = render(<HotelGlobe hotels={[]} />)
+
+    await waitFor(() => expect(tiles(container).length).toBeGreaterThan(0))
+    expect(screen.queryByText("Nothing to map")).toBeNull()
   })
 
   it("points at the geocoding script when hotels have no coordinates", () => {

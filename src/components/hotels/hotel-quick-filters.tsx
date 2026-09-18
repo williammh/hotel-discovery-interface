@@ -3,9 +3,7 @@
 import {
   ArrowsDownUpIcon,
   CoinsIcon,
-  FlowerLotusIcon,
   StarIcon,
-  SwimmingPoolIcon,
 } from "@phosphor-icons/react/dist/ssr"
 import * as React from "react"
 
@@ -24,7 +22,11 @@ import {
   type PriceBounds,
   type SortOption,
 } from "@/domain/filters"
+import { getAmenityIcon } from "@/lib/amenity-icons"
 import { formatCurrency } from "@/lib/format"
+
+const PoolIcon = getAmenityIcon("pool")
+const SpaIcon = getAmenityIcon("spa")
 
 const RATING_PRESET = 4
 const STAR_PRESET = [5, 4]
@@ -129,7 +131,7 @@ export function HotelQuickFilters({
         pressed={poolSelected}
         onPressedChange={() => toggleAmenity("pool", poolSelected)}
       >
-        <SwimmingPoolIcon aria-hidden="true" />
+        <PoolIcon aria-hidden="true" />
         Pool
       </Toggle>
 
@@ -139,7 +141,7 @@ export function HotelQuickFilters({
         pressed={spaSelected}
         onPressedChange={() => toggleAmenity("spa", spaSelected)}
       >
-        <FlowerLotusIcon aria-hidden="true" />
+        <SpaIcon aria-hidden="true" />
         Spa
       </Toggle>
 

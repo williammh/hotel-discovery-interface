@@ -176,7 +176,9 @@ export function HotelGlobe({ hotels }: HotelGlobeProps) {
     setChoice("map")
   }, [])
 
-  if (pins.length === 0) {
+  // An empty result (no filter matches) still shows a pin-less globe/map;
+  // this only covers matched hotels that have no geocoded location at all.
+  if (hotels.length > 0 && pins.length === 0) {
     return (
       <div className="flex h-[70svh] min-h-[28rem] flex-col items-center justify-center gap-2 border border-dashed p-6 text-center lg:h-full lg:min-h-0">
         <GlobeHemisphereWestIcon
@@ -185,9 +187,8 @@ export function HotelGlobe({ hotels }: HotelGlobeProps) {
         />
         <p className="font-heading text-sm font-medium">Nothing to map</p>
         <p className="max-w-[28ch] text-xs/relaxed text-muted-foreground">
-          {hotels.length === 0
-            ? "No properties match the current filters."
-            : "These properties have no geocoded location yet. Run npm run geocode to place them."}
+          These properties have no geocoded location yet. Run npm run geocode
+          to place them.
         </p>
       </div>
     )

@@ -13,28 +13,19 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import type { LocationNode } from "@/domain/catalog"
 import {
   MIN_RATING_OPTIONS,
-  SORT_OPTIONS,
   STAR_RATINGS,
   type HotelFilters,
   type PriceBounds,
-  type SortOption,
 } from "@/domain/filters"
+import { getAmenityIcon } from "@/lib/amenity-icons"
 import { formatAmenity, formatCurrency } from "@/lib/format"
-
-/** A curated subset of the seed's amenity strings, not every one it contains. */
-const AMENITY_OPTIONS = [
-  "pool",
-  "spa",
-  "free_breakfast",
-  "fitness_center",
-  "free Wi-Fi",
-  "pet_friendly",
-] as const
 
 export type HotelFilterControlsProps = {
   filters: HotelFilters
   bounds: PriceBounds
   cities: readonly LocationNode[]
+  /** Every amenity present on a hotel in the current scope. */
+  amenities: readonly string[]
   onChange: (update: Partial<HotelFilters>) => void
 }
 
@@ -43,6 +34,7 @@ export function HotelFilterControls({
   filters,
   bounds,
   cities,
+  amenities,
   onChange,
 }: HotelFilterControlsProps) {
   // A single-city scope (e.g. /usa/il/chicago) makes the city filter a no-op.
@@ -140,29 +132,6 @@ export function HotelFilterControls({
       </Field>
 
       <Field>
-        <FieldLabel>Amenities</FieldLabel>
-        <ToggleGroup
-          multiple
-          aria-label="Filter by amenities"
-          variant="outline"
-          orientation="vertical"
-          className="w-full"
-          value={filters.amenities}
-          onValueChange={(value: string[]) => onChange({ amenities: value })}
-        >
-          {AMENITY_OPTIONS.map((amenity) => (
-            <ToggleGroupItem
-              key={amenity}
-              value={amenity}
-              className="w-full justify-start"
-            >
-              {formatAmenity(amenity)}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
-      </Field>
-
-      <Field>
         <FieldLabel htmlFor="hotel-price">Price per night</FieldLabel>
         {priceIsFixed ? (
           <p className="text-xs text-muted-foreground">
@@ -191,25 +160,25 @@ export function HotelFilterControls({
       </Field>
 
       <Field>
-        <FieldLabel htmlFor="hotel-sort">Sort by</FieldLabel>
-        <Select
-          items={SORT_OPTIONS}
-          value={filters.sort}
-          onValueChange={(value: SortOption | null) =>
-            value && onChange({ sort: value })
-          }
+        <FieldLabel>Amenities</FieldLabel>
+        <ToggleGroup
+          multiple
+          aria-label="Filter by amenities"
+          variant="outline"
+          className="w-full flex-wrap justify-start"
+          value={filters.amenities}
+          onValueChange={(value: string[]) => onChange({ amenities: value })}
         >
-          <SelectTrigger id="hotel-sort" size="sm" className="w-full">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {SORT_OPTIONS.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+          {amenities.map((amenity) => {
+            const AmenityIcon = getAmenityIcon(amenity)
+            return (
+              <ToggleGroupItem key={amenity} value={amenity}>
+                <AmenityIcon aria-hidden="true" />
+                {formatAmenity(amenity)}
+              </ToggleGroupItem>
+            )
+          })}
+        </ToggleGroup>
       </Field>
     </div>
   )
