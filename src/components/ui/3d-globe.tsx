@@ -258,10 +258,19 @@ function RotatingGlobe({
         </mesh>
       )}
 
-      {/* Markers - inside the rotating group so they turn with the globe */}
-      {markers.map((marker, index) => (
+      {/*
+        Markers - inside the rotating group so they turn with the globe.
+        Keyed by position, not array index: filtering or re-sorting the
+        marker list reorders it on every keystroke, and an index-based key
+        would then match each element to a *different* hotel's old fiber,
+        unmounting and remounting the Marker (and its Three.js meshes) for
+        every pin whose index shifted, even when its own position didn't
+        change. Position is already the caller's dedupe key (see
+        `buildGlobePins`), so it's unique here too.
+      */}
+      {markers.map((marker) => (
         <Marker
-          key={`marker-${index}-${marker.lat}-${marker.lng}`}
+          key={`${marker.lat},${marker.lng}`}
           marker={marker}
           radius={config.radius}
           onClick={onMarkerClick}

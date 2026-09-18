@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { memo } from "react"
 
 import { AmenityBadges } from "@/components/hotels/amenity-badges"
 import { RatingStars } from "@/components/hotels/rating-stars"
@@ -8,8 +9,20 @@ import { formatCount, formatCurrency } from "@/lib/format"
 
 const AMENITY_PREVIEW_COUNT = 4
 
-/** The title link stretches over the whole card for a usable touch target. */
-export function HotelCard({ hotel }: { hotel: HotelSummary }) {
+/**
+ * The title link stretches over the whole card for a usable touch target.
+ *
+ * Memoized because `applyFilters` never clones `HotelSummary` objects, so a
+ * hotel that's still in the list after a filter change keeps the same
+ * object reference even though the results array itself is rebuilt — memo
+ * lets those cards skip re-rendering instead of reconciling all ~40 on
+ * every keystroke.
+ */
+export const HotelCard = memo(function HotelCard({
+  hotel,
+}: {
+  hotel: HotelSummary
+}) {
   const { city, state, country } = hotel.address
 
   return (
@@ -68,4 +81,4 @@ export function HotelCard({ hotel }: { hotel: HotelSummary }) {
       </CardContent>
     </Card>
   )
-}
+})
